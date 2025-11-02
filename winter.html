@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Florescence & Co.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6f0;
+            color: #333;
+            overflow-y: scroll;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fadadd;
+            color: #6b4b4b;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header .logo img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%; /* Circular logo */
+        }
+
+        .header h1{
+            margin: 0;
+            font-size: 50px;
+            font-weight: bold;
+            color: #6b4b4b;
+            font-family: 'Great Vibes', serif;
+        }
+
+        .header p {
+            margin-top: -5px;
+            font-size: 17px;
+            font-style: italic;
+        }
+
+        #brand-name {
+        cursor: pointer;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #fadadd;
+            color: #6b4b4b;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            transform: translateX(-100%);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            padding-top: 120px;
+        }
+
+        .sidebar.open {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            color: #6b4b4b;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: #d3878d;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 30px;
+            left: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 1002;
+            color: #6b4b4b;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: #d3878d;
+        }
+
+        .search-icons {
+            position: fixed;
+            top: 30px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1002;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            background-color: #fff;
+            color: #6b4b4b;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background-color: #6b4b4b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #d3878d;
+        }
+
+        .icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icons i {
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #6b4b4b;
+            transition: color 0.3s ease;
+        }
+
+        .icons i:hover {
+            color: #d3878d;
+        }
+
+        .winter-section {
+            padding: 110px;
+        }
+
+        .winter-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #6b4b4b;
+            margin-bottom: 10px;
+        }
+
+        .winter-section p {
+            text-align: center;
+            color: #8b5d5d;
+            margin-bottom: 40px;
+        }
+
+        .flower-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .flower-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .flower-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .flower-card:hover {
+            transform: scale(1.02);
+        }
+
+        .flower-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .flower-info h3 {
+            margin: 0;
+            color: #6b4b4b;
+            font-size: 1.2em;
+        }
+
+        .flower-info p {
+            margin: 5px 0 10px;
+            color: #8b5d5d;
+        }
+
+        .flower-info button {
+            padding: 8px 15px;
+            background-color: #ecb3b4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .flower-info button:hover {
+            background-color: #d3878d;
+        }
+
+        .popup {
+            display: none; 
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            color: #6b4b4b;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: #6b4b4b;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #fadadd;
+            color: #6b4b4b;
+            font-size: 1em;
+            margin-top: -40px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="pics/logo.png" alt="F&Co. Logo">
+            <div>
+                <h1 id="brand-name">Florescence & Co.</h1>
+                <p>Elegance & Beauty in a Single Bouquet</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#best-sellers">Best Sellers</a></li>
+            <li><a href="#seasonal-flowers">Seasonal Flowers</a></li>
+            <li><a href="#fresh-flowers">Fresh Flowers</a></li>
+            <li><a href="#synthetic-flowers">Synthetic Flowers</a></li>
+            <li><a href="#events-styling">Events Styling</a></li>
+            <li><a href="#check-out">Check Out</a></li>
+            <li><a href="#about-us">About Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Search Bar and Icons -->
+    <div class="search-icons">
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="icons">
+            <i class="fas fa-shopping-cart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-question-circle"></i>
+        </div>
+    </div>
+
+    <section class="winter-section">
+        <h2>Winter Collection</h2>
+        <p>Bring warmth to the cold season with our elegant winter floral designs!</p>
+    
+        <div class="flower-grid">
+            <div class="flower-card">
+                <img src="pics/poinsettia.jpg" alt="Poinsettia">
+                <div class="flower-info">
+                    <h3>Holiday Poinsettias</h3>
+                    <p>₱499</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/amaryllis.jpg" alt="Amaryllis">
+                <div class="flower-info">
+                    <h3>Amaryllis Radiance</h3>
+                    <p>₱529</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/paperwhite.jpg" alt="Paperwhite Narcissus">
+                <div class="flower-info">
+                    <h3>Snowy Paperwhites</h3>
+                    <p>₱459</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/holly.webp" alt="Holly">
+                <div class="flower-info">
+                    <h3>Holly Berries</h3>
+                    <p>₱399</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/camellia.jpg" alt="Camellia">
+                <div class="flower-info">
+                    <h3>Winter Camellias</h3>
+                    <p>₱489</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/ranunculus.webp" alt="Ranunculus">
+                <div class="flower-info">
+                    <h3>Ranunculus Frost</h3>
+                    <p>₱479</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/iiris.webp" alt="Iris">
+                <div class="flower-info">
+                    <h3>Icy Irises</h3>
+                    <p>₱459</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="flower-card">
+                <img src="pics/anemonee.jpg" alt="White Anemone">
+                <div class="flower-info">
+                    <h3>White Anemone</h3>
+                    <p>₱489</p>
+                    <button class="cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>        
+    </section>    
+
+    <!-- Popup Modal -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <p>Added to Cart! 🛒</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Copyright © 2025 | Florescence & Co. | All Rights Reserved</p>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shifted');
+        }
+
+        // Redirect to Home Page
+        document.getElementById('brand-name').addEventListener('click', function() {
+            window.location.href = 'main.html';
+        });
+
+        // Add to Cart
+        document.querySelectorAll('.cart').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('popup').style.display = 'flex';
+            });
+        });
+
+        // Close popup
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.getElementById('popup').style.display = 'none';
+        });
+
+        // Close popup when clicking outside the content
+        window.addEventListener('click', (e) => {
+            const popup = document.getElementById('popup');
+            if (e.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>

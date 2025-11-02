@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiora Atelier</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-container">
+                <a href="#" class="logo">
+                    <div class="logo-image">
+                        <img src="pics/logo.png" alt="Fiora Atelier Logo">
+                    </div>
+                    <div class="logo-text">
+                        <h1>Fiora Atelier</h1>
+                        <p>Elegance & Beauty in a Single Bouquet</p>
+                    </div>
+                </a>
+                <div class="header-controls">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search flowers..." id="search-input">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="header-icons">
+                        <div class="icon-container" id="wishlist-icon">
+                            <i class="fas fa-heart"></i>
+                            <span class="badge" id="wishlist-count">0</span>
+                        </div>
+                        <div class="icon-container" id="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge" id="cart-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <!-- Your existing hero content -->
+                <div class="hero-text">
+                    <h1>Elegant Flowers for <span>Beautiful Moments</span></h1>
+                    <p>Handcrafted floral arrangements that capture the essence of your special occasions. Fresh, premium blooms delivered with care and elegance.</p>
+                    
+                    <div class="cta-group">
+                        <button class="cta-button">
+                            <i class="fas fa-shopping-bag"></i>
+                            Shop Collection
+                        </button>
+                        <button class="cta-button secondary">
+                            <i class="fas fa-play"></i>
+                            Watch Story
+                        </button>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">2K+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Unique Designs</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Delivery</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Beautiful Floral Arrangement">
+                    <div class="image-badge">
+                        <i class="fas fa-award"></i> Premium Quality
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating elements -->
+            <div class="floating-element floating-2">
+                <i class="fas fa-heart" style="color: var(--pink-dark); font-size: 1.5rem;"></i>
+                <div>Fresh Daily</div>
+            </div>
+            <div class="floating-element floating-1">
+                <i class="fas fa-shipping-fast" style="color: var(--pink-dark); font-size: 1.5rem;"></i>
+                <div>Free Shipping</div>
+            </div>
+        </section>
+        
+        <!-- Navigation -->
+        <nav class="nav-container" id="main-nav">
+            <ul class="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#best-sellers">Best Sellers</a></li>
+                <li><a href="#fresh">Fresh Flowers</a></li>
+                <li><a href="#seasonal">Categories</a></li>
+                <li><a href="#events">Events Styling</a></li>
+                <li><a href="#synthetic">Gallery</a></li>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+        </nav>
+    
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Best Sellers Section -->
+            <section class="section" id="best-sellers">
+                <div class="section-header">
+                    <h2 class="section-title">Best Sellers</h2>
+                    <p class="section-subtitle">Our most loved floral arrangements, curated with passion and expertise</p>
+                </div>
+                
+                <!-- Sort Controls -->
+                <div class="sort-controls">
+                    <select class="sort-select" id="sort-select">
+                        <option value="default">Sort by: Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name: A to Z</option>
+                    </select>
+                </div>
+                
+                <div class="product-grid" id="product-container">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+            </section>
+    
+            <!-- Seasonal Flowers Section -->
+            <section class="section" id="seasonal">
+                <div class="section-header">
+                    <h2 class="section-title">Seasonal Flowers</h2>
+                    <p class="section-subtitle">Discover blooms that capture the essence of each season</p>
+                </div>
+                <div class="seasonal-grid">
+                    <div class="season-card">
+                        <img src="pics/spring1.webp" alt="Spring Flowers">
+                        <div class="season-overlay">
+                            <h3 class="season-name">Spring Blooms</h3>
+                            <a href="spring.html" class="season-link">Explore Collection <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="season-card">
+                        <img src="pics/summer1.jpg" alt="Summer Flowers">
+                        <div class="season-overlay">
+                            <h3 class="season-name">Summer Delights</h3>
+                            <a href="summer.html" class="season-link">Explore Collection <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="season-card">
+                        <img src="pics/fall.jpg" alt="Fall Flowers">
+                        <div class="season-overlay">
+                            <h3 class="season-name">Autumn Hues</h3>
+                            <a href="fall.html" class="season-link">Explore Collection <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="season-card">
+                        <img src="pics/winter.jpg" alt="Winter Flowers">
+                        <div class="season-overlay">
+                            <h3 class="season-name">Winter Magic</h3>
+                            <a href="winter.html" class="season-link">Explore Collection <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Fresh Flowers Section -->
+            <section class="section" id="fresh">
+                <div class="section-header">
+                    <h2 class="section-title">Fresh Flowers</h2>
+                    <p class="section-subtitle">Nature's finest blooms, carefully selected for their beauty and freshness</p>
+                </div>
+                <div class="product-grid" id="fresh-products">
+                    <!-- Fresh flower products will be dynamically loaded here -->
+                </div>
+            </section>
+    
+            <!-- Synthetic Flowers Section -->
+            <section class="section" id="synthetic">
+                <div class="section-header">
+                    <h2 class="section-title">Synthetic Flowers</h2>
+                    <p class="section-subtitle">Lifelike floral arrangements that last forever, perfect for long-term decoration</p>
+                </div>
+                <div class="product-grid" id="synthetic-products">
+                    <!-- Synthetic flower products will be dynamically loaded here -->
+                </div>
+            </section>
+        </main>
+    
+        <!-- Cart Sidebar -->
+        <div class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3>Your Shopping Cart</h3>
+                <button class="close-cart" id="close-cart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be dynamically loaded here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total">₱0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+                <button class="undo-btn" id="undo-btn">Undo Last Action</button>
+            </div>
+        </div>
+    
+        <!-- Product Detail Modal -->
+        <div class="product-modal" id="product-modal">
+            <div class="product-modal-header">
+                <h3>Product Details</h3>
+                <button class="close-product-modal" id="close-product-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="product-modal-content">
+                <div class="product-modal-images">
+                    <img src="" alt="Product Image" class="product-main-image" id="product-main-image">
+                    <div class="product-thumbnails" id="product-thumbnails">
+                        <!-- Thumbnails will be dynamically loaded here -->
+                    </div>
+                </div>
+                <div class="product-modal-details">
+                    <h2 class="product-modal-name" id="product-modal-name">Product Name</h2>
+                    <div class="product-modal-category" id="product-modal-category">Category</div>
+                    <div class="product-modal-price" id="product-modal-price">₱0.00</div>
+                    <p class="product-modal-description" id="product-modal-description">Product description will appear here.</p>
+                    <div class="product-modal-actions">
+                        <div class="modal-quantity-controls">
+                            <button class="quantity-btn minus" id="modal-minus">-</button>
+                            <span class="quantity" id="modal-quantity">1</span>
+                            <button class="quantity-btn plus" id="modal-plus">+</button>
+                        </div>
+                        <button class="modal-add-to-cart" id="modal-add-to-cart">Add to Cart</button>
+                        <button class="wishlist-btn" id="modal-wishlist-btn">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wishlist Modal -->
+        <div class="wishlist-modal" id="wishlist-modal">
+            <div class="wishlist-header">
+                <h3>Your Wishlist</h3>
+                <button class="close-wishlist" id="close-wishlist">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="wishlist-items" id="wishlist-items">
+                <!-- Wishlist items will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Checkout Modal -->
+        <div class="checkout-modal" id="checkout-modal">
+            <div class="checkout-header">
+                <h3>Checkout</h3>
+                <button class="close-checkout" id="close-checkout">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="checkout-content">
+                <form id="checkout-form" class="checkout-form">
+                    <!-- Customer Information -->
+                    <div class="form-section">
+                        <h4>Customer Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name *</label>
+                                <input type="text" id="first-name" name="firstName" required>
+                                <span class="error-message" id="first-name-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name *</label>
+                                <input type="text" id="last-name" name="lastName" required>
+                                <span class="error-message" id="last-name-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="email-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                            <span class="error-message" id="phone-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="form-section">
+                        <h4>Shipping Address</h4>
+                        <div class="form-group">
+                            <label for="address">Street Address *</label>
+                            <input type="text" id="address" name="address" required>
+                            <span class="error-message" id="address-error"></span>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                                <span class="error-message" id="city-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">ZIP Code *</label>
+                                <input type="text" id="zip" name="zip" required>
+                                <span class="error-message" id="zip-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="ph">Philippines</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                            </select>
+                            <span class="error-message" id="country-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="form-section">
+                        <h4>Payment Information</h4>
+                        <div class="form-group">
+                            <label for="card-number">Card Number *</label>
+                            <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                            <span class="error-message" id="card-number-error"></span>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry-date">Expiry Date *</label>
+                                <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY" required>
+                                <span class="error-message" id="expiry-date-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV *</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                <span class="error-message" id="cvv-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card-name">Name on Card *</label>
+                            <input type="text" id="card-name" name="cardName" required>
+                            <span class="error-message" id="card-name-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="form-section">
+                        <h4>Order Summary</h4>
+                        <div class="order-summary" id="checkout-order-summary">
+                            <!-- Order items will be populated here -->
+                        </div>
+                        <div class="order-total">
+                            <strong>Total: <span id="checkout-total">₱0.00</span></strong>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="submit-order-btn" id="submit-order">
+                            <i class="fas fa-lock"></i>
+                            Place Order
+                        </button>
+                        <button type="button" class="cancel-checkout" id="cancel-checkout">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
+    
+        <!-- Toast Notification -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Product added to cart!</span>
+        </div>
+    
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Fiora Atelier</h4>
+                    <p>Bringing elegance and beauty to your special moments with our exquisite floral arrangements.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#best-sellers">Best Sellers</a></li>
+                        <li><a href="#fresh">Fresh Flowers</a></li>
+                        <li><a href="#synthetic">Synthetic Flowers</a></li>
+                        <li><a href="#seasonal">Seasonal Collection</a></li>
+                        <li><a href="#events">Events Styling</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Information</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Flower Street, Manila</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-envelope"></i> hello@fioraatelier.co</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright © 2025 Fiora Atelier | All Rights Reserved</p>
+            </div>
+        </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
