@@ -232,19 +232,18 @@ body {
 
 /* Update Hero Section */
 .hero {
-    min-height: 75vh;
-    background: 
-        linear-gradient(135deg, 
-            rgba(248, 232, 238, 0.4) 0%, 
-            rgba(245, 235, 235, 0.3) 50%,
-            rgba(255, 255, 255, 0.9) 100%),
-        url('https://images.unsplash.com/photo-1487070183333-3c0a8d8d7db6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-    background-size: cover;
-    background-position: center 30%;
+    min-height: 77vh;
     display: flex;
     align-items: center;
+    position: relative;
     overflow: hidden;
-    margin-top: 120px;
+    margin-top: 100px;
+    background:
+        linear-gradient(135deg, 
+                rgba(248, 232, 238, 0.4) 0%, 
+                rgba(245, 235, 235, 0.3) 50%,
+                rgba(255, 255, 255, 0.9) 100%),
+        url('pics/heroo.png');
 }
 
 .hero-content {
@@ -255,10 +254,21 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    width: 100%;
+}
+.hero-text {
+    grid-column: 2;
+    padding-right: 2rem;
+    text-align: right; /* This right-aligns all text */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-.hero-text {
-    padding-right: 2rem;
+lottie-player {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
 }
 
 .hero h1 {
@@ -268,6 +278,8 @@ body {
     margin-bottom: 1.5rem;
     line-height: 1.1;
     font-weight: 700;
+    text-align: right;
+    width: 100%;
 }
 
 .hero h1 span {
@@ -281,12 +293,16 @@ body {
     margin-bottom: 2.5rem;
     line-height: 1.6;
     opacity: 0.9;
+    text-align: right;
+    width: 100%;
 }
 
 .cta-group {
     display: flex;
     gap: 1rem;
     margin-bottom: 3rem;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .cta-button {
@@ -324,6 +340,7 @@ body {
 .hero-stats {
     display: flex;
     gap: 3rem;
+    justify-content: flex-end;
 }
 
 .stat {
@@ -409,10 +426,6 @@ body {
         padding-right: 0;
     }
     
-    .hero h1 {
-        font-size: 3rem;
-    }
-    
     .cta-group {
         justify-content: center;
         flex-wrap: wrap;
@@ -420,6 +433,16 @@ body {
     
     .hero-stats {
         justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-animation {
+        height: 300px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
     }
 }
 
@@ -502,7 +525,6 @@ body {
     margin: 0 auto;
 }
 
-/* Sort Controls */
 /* Sort Controls */
 .sort-controls {
     display: flex;
@@ -702,6 +724,194 @@ body {
 .wishlist-btn:hover, .wishlist-btn.active {
     background: var(--pink-dark);
     color: white;
+}
+
+/* Testimonials Section - FULL WIDTH */
+.testimonials-section {
+    background: 
+        url('pics/testimonials.png');
+    background-size: cover;
+    background-position: center;
+    padding: 5rem 0;
+    margin: 4rem 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    left: 0;
+    right: 0;
+    position: relative;
+}
+
+.testimonials-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+/* Section Header */
+.testimonials-section .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.testimonials-section .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.testimonials-section .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--pink-dark);
+}
+
+.testimonials-section .section-subtitle {
+    color: var(--primary);
+    max-width: 600px;
+    margin: 2rem auto 0;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Testimonials Grid */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+/* Testimonial Cards */
+.testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+/* Rating Stars */
+.rating {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.rating i {
+    color: #FFD700;
+    font-size: 1.1rem;
+}
+
+/* Testimonial Content */
+.testimonial-content i.fa-quote-left {
+    font-size: 2rem;
+    color: var(--pink-dark);
+    margin-bottom: 1.5rem;
+    display: block;
+    text-align: center;
+}
+
+.testimonial-content p {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-style: italic;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Client Profile */
+.client-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.client-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--pink-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    border: 2px solid var(--accent);
+}
+
+.client-info h4 {
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    font-size: 1.1rem;
+}
+
+.client-info span {
+    color: var(--secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .testimonials-section {
+        padding: 4rem 0;
+    }
+    
+    .testimonials-section .section-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .testimonials-container {
+        padding: 0 1.5rem;
+    }
+    
+    .testimonial-card {
+        padding: 2rem;
+    }
+    
+    .testimonials-section .section-title {
+        font-size: 2rem;
+    }
 }
 
 /* Seasonal Section */

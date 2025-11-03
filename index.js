@@ -8,6 +8,24 @@ window.addEventListener('scroll', function() {
     }
 });
 
+// Load Lottie animation to replace hero image
+function initHeroAnimation() {
+    // Method 1: Using Lottie Player (Easier)
+    const animationContainer = document.getElementById('lottie-hero');
+    
+    // Create Lottie player
+    const lottiePlayer = document.createElement('lottie-player');
+    lottiePlayer.setAttribute('src', 'pics/floral.json');
+    lottiePlayer.setAttribute('background', 'transparent');
+    lottiePlayer.setAttribute('speed', '1');
+    lottiePlayer.setAttribute('loop', '');
+    lottiePlayer.setAttribute('autoplay', '');
+    lottiePlayer.style.width = '100%';
+    lottiePlayer.style.height = '100%';
+    
+    animationContainer.appendChild(lottiePlayer);
+}
+
 // Data Structures Implementation
 
 // Product Class
@@ -392,6 +410,7 @@ function init() {
     updateCartUI();
     updateWishlistUI();
     initCheckout();
+    initHeroAnimation();
 }
 
 // Render products to the page

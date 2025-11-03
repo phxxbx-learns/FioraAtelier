@@ -6,6 +6,7 @@
     <title>Fiora Atelier</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -43,6 +44,16 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
+
+                <lottie-player 
+                    src="pics/floral.json"
+                    background="transparent" 
+                    speed="1" 
+                    loop 
+                    autoplay
+                    style="width: 500px; height: 500px;">
+                </lottie-player>
+
                 <!-- Your existing hero content -->
                 <div class="hero-text">
                     <h1>Elegant Flowers for <span>Beautiful Moments</span></h1>
@@ -74,23 +85,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Beautiful Floral Arrangement">
-                    <div class="image-badge">
-                        <i class="fas fa-award"></i> Premium Quality
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Floating elements -->
-            <div class="floating-element floating-2">
-                <i class="fas fa-heart" style="color: var(--pink-dark); font-size: 1.5rem;"></i>
-                <div>Fresh Daily</div>
-            </div>
-            <div class="floating-element floating-1">
-                <i class="fas fa-shipping-fast" style="color: var(--pink-dark); font-size: 1.5rem;"></i>
-                <div>Free Shipping</div>
             </div>
         </section>
         
@@ -131,6 +125,98 @@
                 </div>
             </section>
     
+            <!-- Fresh Flowers Section -->
+            <section class="section" id="fresh">
+                <div class="section-header">
+                    <h2 class="section-title">Fresh Flowers</h2>
+                    <p class="section-subtitle">Nature's finest blooms, carefully selected for their beauty and freshness</p>
+                </div>
+                <div class="product-grid" id="fresh-products">
+                    <!-- Fresh flower products will be dynamically loaded here -->
+                </div>
+            </section>
+
+            <!-- Add this after the Fresh Flowers section -->
+            <section class="testimonials-section">
+                <div class="testimonials-container">
+                    <div class="section-header">
+                        <h2 class="section-title">Client Testimonials</h2>
+                        <p class="section-subtitle">Hear what our customers have to say about their experience</p>
+                    </div>
+                    
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-left"></i>
+                                <p>"The floral arrangements for my wedding were absolutely breathtaking! Florescence & Co. captured exactly what I envisioned."</p>
+                            </div>
+                            <div class="client-profile">
+                                <div class="client-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="client-info">
+                                    <h4>Sarah Johnson</h4>
+                                    <span>Wedding Client</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-left"></i>
+                                <p>"I've been ordering weekly bouquets for months. The quality and freshness are consistently exceptional. Highly recommended!"</p>
+                            </div>
+                            <div class="client-profile">
+                                <div class="client-avatar">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="client-info">
+                                    <h4>Michael Chen</h4>
+                                    <span>Corporate Client</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-left"></i>
+                                <p>"The anniversary bouquet brought tears to my wife's eyes. The attention to detail and personal touch made it so special."</p>
+                            </div>
+                            <div class="client-profile">
+                                <div class="client-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="client-info">
+                                    <h4>Robert Martinez</h4>
+                                    <span>Anniversary Client</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Seasonal Flowers Section -->
             <section class="section" id="seasonal">
                 <div class="section-header">
@@ -166,17 +252,6 @@
                             <a href="winter.html" class="season-link">Explore Collection <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                </div>
-            </section>
-    
-            <!-- Fresh Flowers Section -->
-            <section class="section" id="fresh">
-                <div class="section-header">
-                    <h2 class="section-title">Fresh Flowers</h2>
-                    <p class="section-subtitle">Nature's finest blooms, carefully selected for their beauty and freshness</p>
-                </div>
-                <div class="product-grid" id="fresh-products">
-                    <!-- Fresh flower products will be dynamically loaded here -->
                 </div>
             </section>
     
