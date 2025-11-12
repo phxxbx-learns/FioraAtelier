@@ -1,456 +1,300 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Fiora Atelier</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Collection - Fiora Atelier</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fdf6f0;
-            color: #333;
-            overflow-y: scroll;
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #fadadd;
-            color: #6b4b4b;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .header .logo {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header .logo img {
-            height: 60px;
-            width: 60px;
-            border-radius: 50%; /* Circular logo */
-        }
-
-        .header h1{
-            margin: 0;
-            font-size: 50px;
-            font-weight: bold;
-            color: #6b4b4b;
-            font-family: 'Great Vibes', serif;
-        }
-
-        .header p {
-            margin-top: -5px;
-            font-size: 17px;
-            font-style: italic;
-        }
-
-        #brand-name {
-        cursor: pointer;
-        }
-
-        .sidebar {
-            width: 250px;
-            height: 100%;
-            background-color: #fadadd;
-            color: #6b4b4b;
-            position: fixed;
-            top: 0;
-            left: -250px;
-            transition: left 0.3s ease;
-            transform: translateX(-100%);
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            padding-top: 120px;
-        }
-
-        .sidebar.open {
-            left: 0;
-            transform: translateX(0);
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .sidebar ul li a {
-            color: #6b4b4b;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar ul li a:hover {
-            color: #d3878d;
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 30px;
-            left: 50px;
-            font-size: 1.5em;
-            cursor: pointer;
-            z-index: 1002;
-            color: #6b4b4b;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar-toggle:hover {
-            color: #d3878d;
-        }
-
-        .search-icons {
-            position: fixed;
-            top: 30px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1002;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-bar input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 200px;
-            background-color: #fff;
-            color: #6b4b4b;
-        }
-
-        .search-bar button {
-            padding: 10px;
-            background-color: #6b4b4b;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-bar button:hover {
-            background-color: #d3878d;
-        }
-
-        .icons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .icons i {
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #6b4b4b;
-            transition: color 0.3s ease;
-        }
-
-        .icons i:hover {
-            color: #d3878d;
-        }
-
-        .summer-section {
-            padding: 110px;
-        }
-
-        .summer-section h2 {
-            text-align: center;
-            font-size: 2.5em;
-            color: #6b4b4b;
-            margin-bottom: 10px;
-        }
-
-        .summer-section p {
-            text-align: center;
-            color: #8b5d5d;
-            margin-bottom: 40px;
-        }
-
-        .flower-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        .flower-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.2s ease;
-        }
-
-        .flower-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .flower-card:hover {
-            transform: scale(1.02);
-        }
-
-        .flower-info {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .flower-info h3 {
-            margin: 0;
-            color: #6b4b4b;
-            font-size: 1.2em;
-        }
-
-        .flower-info p {
-            margin: 5px 0 10px;
-            color: #8b5d5d;
-        }
-
-        .flower-info button {
-            padding: 8px 15px;
-            background-color: #ecb3b4;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .flower-info button:hover {
-            background-color: #d3878d;
-        }
-
-        .popup {
-            display: none; 
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            color: #6b4b4b;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        .close-btn:hover {
-            color: #6b4b4b;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 15px;
-            background-color: #fadadd;
-            color: #6b4b4b;
-            font-size: 1em;
-            margin-top: -40px;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            <img src="pics/logo.png" alt="F&Co. Logo">
-            <div>
-                <h1 id="brand-name">Fiora Atelier</h1>
-                <p>Elegance & Beauty in a Single Bouquet</p>
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-image">
+                    <img src="pics/logo.png" alt="Fiora Atelier Logo">
+                </div>
+                <div class="logo-text">
+                    <h1>Fiora Atelier</h1>
+                    <p>Elegance & Beauty in a Single Bouquet</p>
+                </div>
+            </a>
+            <div class="header-controls">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search flowers..." id="search-input">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-icons">
+                    <div class="icon-container" id="wishlist-icon">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </div>
+                    <div class="icon-container" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Sidebar Toggle -->
-    <div class="sidebar-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#best-sellers">Best Sellers</a></li>
-            <li><a href="#seasonal-flowers">Seasonal Flowers</a></li>
-            <li><a href="#fresh-flowers">Fresh Flowers</a></li>
-            <li><a href="#synthetic-flowers">Synthetic Flowers</a></li>
-            <li><a href="#events-styling">Events Styling</a></li>
-            <li><a href="#check-out">Check Out</a></li>
-            <li><a href="#about-us">About Us</a></li>
+    <!-- Navigation -->
+    <nav class="nav-container" id="main-nav">
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#best-sellers">Best Sellers</a></li>
+            <li><a href="index.html#fresh">Fresh Flowers</a></li>
+            <li><a href="index.html#seasonal">Categories</a></li>
+            <li><a href="index.html#events">Events Styling</a></li>
+            <li><a href="index.html#gallery">Gallery</a></li>
+            <li><a href="index.html#about-us">About Us</a></li>
         </ul>
-    </div>
+    </nav>
 
-    <!-- Search Bar and Icons -->
-    <div class="search-icons">
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <button><i class="fas fa-search"></i></button>
-        </div>
-        <div class="icons">
-            <i class="fas fa-shopping-cart"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-question-circle"></i>
-        </div>
-    </div>
+    <!-- Summer Collection Section -->
+    <main class="main-content">
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Summer Collection</h2>
+                <p class="section-subtitle">Brighten your days with our vibrant summer blooms featuring bold colors and sun-loving flowers</p>
+            </div>
 
-    <section class="summer-section">
-        <h2>Summer Collection</h2>
-        <p>Brighten your days with our vibrant summer blooms!</p>
+            <div class="product-grid">
+                <div class="product-card" data-id="41" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/sunflower.jpeg" alt="Sunflower" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Sunflower Stalk</div>
+                        <div class="product-description">Bright sunflowers symbolizing adoration and loyalty, perfect for summer vibes</div>
+                        <div class="product-price">₱129.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="41">-</button>
+                                <span class="quantity" data-id="41">1</span>
+                                <button class="quantity-btn plus" data-id="41">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="41">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="41">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="flower-grid">
-            <div class="flower-card">
-                <img src="pics/sunflower.jpeg" alt="Sunflower">
-                <div class="flower-info">
-                    <h3>Sunflower Stalk</h3>
-                    <p>₱129</p>
-                    <button class="cart">Add to Cart</button>
+                <div class="product-card" data-id="42" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/zinnia.webp" alt="Zinnia" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Zinnia Arrangement</div>
+                        <div class="product-description">Colorful zinnias in vibrant hues that thrive in summer heat</div>
+                        <div class="product-price">₱499.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="42">-</button>
+                                <span class="quantity" data-id="42">1</span>
+                                <button class="quantity-btn plus" data-id="42">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="42">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="42">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/zinnia.webp" alt="Zinnia">
-                <div class="flower-info">
-                    <h3>Zinnia Arrangement</h3>
-                    <p>₱499</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/marigold.jpg" alt="Marigold">
-                <div class="flower-info">
-                    <h3>Golden Marigolds</h3>
-                    <p>₱399</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/dahlia.jpg" alt="Dahlia">
-                <div class="flower-info">
-                    <h3>Dahlia Delight</h3>
-                    <p>₱599</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/lavender.webp" alt="Lavender">
-                <div class="flower-info">
-                    <h3>Lavender Bunch</h3>
-                    <p>₱549</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/geranium.jpg" alt="Geranium">
-                <div class="flower-info">
-                    <h3>Geranium Pinks</h3>
-                    <p>₱449</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/gladiolus.jpg" alt="Gladiolus">
-                <div class="flower-info">
-                    <h3>Gladiolus Bunch</h3>
-                    <p>₱599</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-            <div class="flower-card">
-                <img src="pics/cornflower.webp" alt="Cornflower">
-                <div class="flower-info">
-                    <h3>Cornflower Bloom</h3>
-                    <p>₱499</p>
-                    <button class="cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>        
-    </section>
 
-    <!-- Popup Modal -->
-    <div id="popup" class="popup">
-        <div class="popup-content">
-        <span class="close-btn">&times;</span>
-        <p>Added to Cart! 🛒</p>
-        </div>
-    </div>
+                <div class="product-card" data-id="43" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/marigold.jpg" alt="Marigold" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Golden Marigolds</div>
+                        <div class="product-description">Vibrant marigolds known for their warm colors and summer resilience</div>
+                        <div class="product-price">₱399.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="43">-</button>
+                                <span class="quantity" data-id="43">1</span>
+                                <button class="quantity-btn plus" data-id="43">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="43">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="43">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="44" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/dahlia.jpg" alt="Dahlia" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Dahlia Delight</div>
+                        <div class="product-description">Stunning dahlias with intricate petals in summer-bright colors</div>
+                        <div class="product-price">₱599.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="44">-</button>
+                                <span class="quantity" data-id="44">1</span>
+                                <button class="quantity-btn plus" data-id="44">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="44">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="44">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="45" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/lavender.webp" alt="Lavender" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Lavender Bunch</div>
+                        <div class="product-description">Fragrant lavender known for its calming scent and purple spikes</div>
+                        <div class="product-price">₱549.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="45">-</button>
+                                <span class="quantity" data-id="45">1</span>
+                                <button class="quantity-btn plus" data-id="45">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="45">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="45">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="46" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/geranium.jpg" alt="Geranium" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Geranium Pinks</div>
+                        <div class="product-description">Cheerful geraniums in pink shades perfect for summer containers</div>
+                        <div class="product-price">₱449.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="46">-</button>
+                                <span class="quantity" data-id="46">1</span>
+                                <button class="quantity-btn plus" data-id="46">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="46">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="46">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="47" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/gladiolus.jpg" alt="Gladiolus" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Gladiolus Bunch</div>
+                        <div class="product-description">Tall gladiolus spikes adding vertical interest to summer arrangements</div>
+                        <div class="product-price">₱599.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="47">-</button>
+                                <span class="quantity" data-id="47">1</span>
+                                <button class="quantity-btn plus" data-id="47">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="47">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="47">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="48" data-category="summer">
+                    <div class="product-badge">Summer Special</div>
+                    <img src="pics/cornflower.webp" alt="Cornflower" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Cornflower Bloom</div>
+                        <div class="product-description">Vibrant blue cornflowers adding cool tones to warm summer days</div>
+                        <div class="product-price">₱499.00</div>
+                        <div class="product-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="48">-</button>
+                                <span class="quantity" data-id="48">1</span>
+                                <button class="quantity-btn plus" data-id="48">+</button>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" data-id="48">Add to Cart</button>
+                                <button class="wishlist-btn" data-id="48">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <div class="footer">
-        <p>Copyright © 2025 | Fiora Atelier | All Rights Reserved</p>
-    </div>
-
-    <script>
-        // Toggle Sidebar
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            sidebar.classList.toggle('open');
-            mainContent.classList.toggle('shifted');
-        }
-
-        // Redirect to Home Page
-        document.getElementById('brand-name').addEventListener('click', function() {
-            window.location.href = 'main.html';
-        });
-
-        // Add to Cart
-        document.querySelectorAll('.cart').forEach(button => {
-            button.addEventListener('click', () => {
-                document.getElementById('popup').style.display = 'flex';
-            });
-        });
-
-        // Close popup
-        document.querySelector('.close-btn').addEventListener('click', () => {
-            document.getElementById('popup').style.display = 'none';
-        });
-
-        // Close popup when clicking outside the content
-        window.addEventListener('click', (e) => {
-            const popup = document.getElementById('popup');
-            if (e.target === popup) {
-                popup.style.display = 'none';
-            }
-        });
-    </script>
-
+    <footer class="footer" id="about-us">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Fiora Atelier</h4>
+                <p>Bringing elegance and beauty to your special moments with our exquisite floral arrangements.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#best-sellers">Best Sellers</a></li>
+                    <li><a href="index.html#fresh">Fresh Flowers</a></li>
+                    <li><a href="index.html#synthetic">Synthetic Flowers</a></li>
+                    <li><a href="index.html#seasonal">Seasonal Collection</a></li>
+                    <li><a href="index.html#events">Events Styling</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Information</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Flower Street, Manila</li>
+                    <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                    <li><i class="fas fa-envelope"></i> hello@fioraatelier.co</li>
+                    <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2025 Fiora Atelier | All Rights Reserved</p>
+        </div>
+    </footer>
 </body>
 </html>

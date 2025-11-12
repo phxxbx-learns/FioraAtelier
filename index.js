@@ -10,20 +10,52 @@ window.addEventListener('scroll', function() {
 
 // Load Lottie animation to replace hero image
 function initHeroAnimation() {
-    // Method 1: Using Lottie Player (Easier)
-    const animationContainer = document.getElementById('lottie-hero');
-    
-    // Create Lottie player
-    const lottiePlayer = document.createElement('lottie-player');
-    lottiePlayer.setAttribute('src', 'pics/floral.json');
-    lottiePlayer.setAttribute('background', 'transparent');
-    lottiePlayer.setAttribute('speed', '1');
-    lottiePlayer.setAttribute('loop', '');
-    lottiePlayer.setAttribute('autoplay', '');
-    lottiePlayer.style.width = '100%';
-    lottiePlayer.style.height = '100%';
-    
-    animationContainer.appendChild(lottiePlayer);
+    const animationContainer = document.querySelector('.hero-content lottie-player');
+    if (animationContainer) {
+        console.log('Lottie animation initialized');
+    }
+}
+
+// Local Storage Functions
+function saveCartToStorage() {
+    const cartData = {
+        items: shoppingCart.getItems().map(item => ({
+            productId: item.product.id,
+            quantity: item.quantity
+        })),
+        total: shoppingCart.total,
+        size: shoppingCart.size
+    };
+    localStorage.setItem('fioraCart', JSON.stringify(cartData));
+}
+
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('fioraCart');
+    if (savedCart) {
+        const cartData = JSON.parse(savedCart);
+        shoppingCart.clear();
+        
+        cartData.items.forEach(itemData => {
+            const product = productCatalog.find(p => p.id === itemData.productId);
+            if (product) {
+                shoppingCart.addItem(product, itemData.quantity);
+            }
+        });
+        
+        shoppingCart.total = cartData.total;
+        shoppingCart.size = cartData.size;
+    }
+}
+
+function saveWishlistToStorage() {
+    localStorage.setItem('fioraWishlist', JSON.stringify(wishlist));
+}
+
+function loadWishlistFromStorage() {
+    const savedWishlist = localStorage.getItem('fioraWishlist');
+    if (savedWishlist) {
+        wishlist = JSON.parse(savedWishlist);
+    }
 }
 
 // Data Structures Implementation
@@ -294,15 +326,15 @@ class SortingAlgorithms {
 const productCatalog = [
     // Best Sellers
     new Product(1, "Candy Pink", 9999.00, "best-sellers", "pics/b1.webp", 
-        "A vibrant pink arrangement perfect for celebrations. This stunning bouquet features a mix of premium pink roses, peonies, and carnations, carefully arranged to create a breathtaking display of color and elegance. Perfect for birthdays, anniversaries, or just to brighten someone's day.",
+        "A vibrant pink arrangement perfect for celebrations. This stunning bouquet features a mix of premium pink roses, peonies, and carnations, carefully arranged to create a breathtaking display of color and elegance.",
         ["pics/b1.webp", "pics/b2.webp", "pics/b3.webp"]),
     
     new Product(2, "Bright but Light", 2850.00, "best-sellers", "pics/b2.webp", 
-        "A cheerful mix of bright flowers to light up any room. This arrangement combines sunflowers, daisies, and yellow roses to create a sunny, uplifting bouquet that brings warmth and happiness to any space.",
+        "A cheerful mix of bright flowers to light up any room. This arrangement combines sunflowers, daisies, and yellow roses to create a sunny, uplifting bouquet.",
         ["pics/b2.webp", "pics/b1.webp", "pics/b3.webp"]),
     
     new Product(3, "Berry Cheesecake", 6880.00, "best-sellers", "pics/b3.webp", 
-        "Rich tones of berry and cream in an elegant display. This luxurious arrangement features deep burgundy roses, purple lisianthus, and white hydrangeas, creating a sophisticated color palette that's both modern and timeless.",
+        "Rich tones of berry and cream in an elegant display. This luxurious arrangement features deep burgundy roses, purple lisianthus, and white hydrangeas.",
         ["pics/b3.webp", "pics/b1.webp", "pics/b2.webp"]),
     
     new Product(4, "Dream Land", 3990.00, "best-sellers", "pics/b4.webp", 
@@ -313,40 +345,96 @@ const productCatalog = [
         "Delicate pink flowers arranged with timeless elegance. A beautiful combination of pink peonies, roses, and carnations.",
         ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
     
+    new Product(5, "Pinkish Belle", 5390.00, "best-sellers", "pics/b5.webp", 
+        "Delicate pink flowers arranged with timeless elegance. A beautiful combination of pink peonies, roses, and carnations.",
+        ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
+
     // Fresh Flowers
-    new Product(7, "Blooms Blush", 15999.00, "fresh", "pics/f1.jpg", 
-        "A luxurious bouquet of premium fresh blooms featuring garden roses, ranunculus, and eucalyptus. Each stem is hand-selected for perfection, creating an arrangement that speaks of luxury and refinement.",
+    new Product(6, "Blooms Blush", 15999.00, "fresh", "pics/f1.jpg", 
+        "A luxurious bouquet of premium fresh blooms featuring garden roses, ranunculus, and eucalyptus. Each stem is hand-selected for perfection.",
         ["pics/f1.jpg", "pics/f2.jpg", "pics/f3.jpg"]),
     
-    new Product(8, "Blissful Roses", 6670.00, "fresh", "pics/f2.jpg", 
-        "Classic roses arranged to perfection. This timeless bouquet features two dozen premium red roses, symbolizing deep love and affection. Perfect for romantic occasions or to express heartfelt emotions.",
+    new Product(7, "Blissful Roses", 6670.00, "fresh", "pics/f2.jpg", 
+        "Classic roses arranged to perfection. This timeless bouquet features two dozen premium red roses, symbolizing deep love and affection.",
         ["pics/f2.jpg", "pics/f1.jpg", "pics/f3.jpg"]),
     
-    new Product(9, "Rosette", 3490.00, "fresh", "pics/ff3.webp", 
+    new Product(8, "Rosette", 3490.00, "fresh", "pics/ff3.webp", 
         "A charming arrangement of roses and complementary flowers. Features pink and white roses with baby's breath for a classic look.",
         ["pics/ff3.webp", "pics/f1.jpg", "pics/f2.jpg"]),
     
+    new Product(9, "Garden Delight", 4290.00, "fresh", "pics/f4.jpg", 
+        "A beautiful mix of garden fresh flowers including lilies, chrysanthemums, and seasonal greens. Perfect for bringing a touch of nature indoors.",
+        ["pics/f4.jpg", "pics/f5.jpg", "pics/f6.jpg"]),
+    
+    new Product(10, "White Elegance", 5590.00, "fresh", "pics/f5.jpg", 
+        "Pure white flowers including lilies, roses, and orchids arranged for a sophisticated and clean look. Ideal for weddings and formal events.",
+        ["pics/f5.jpg", "pics/f4.jpg", "pics/f6.jpg"]),
+    
+    new Product(11, "Tropical Bliss", 3890.00, "fresh", "pics/f6.jpg", 
+        "Exotic tropical flowers featuring birds of paradise, anthuriums, and tropical greens. Brings a vacation vibe to any space.",
+        ["pics/f6.jpg", "pics/f4.jpg", "pics/f5.jpg"]),
+
+    new Product(12, "Garden Delight", 4290.00, "fresh", "pics/f4.jpg", 
+    "A beautiful mix of garden fresh flowers including lilies, chrysanthemums, and seasonal greens. Perfect for bringing a touch of nature indoors.",
+    ["pics/f4.jpg", "pics/f5.jpg", "pics/f6.jpg"]),
+    
+    new Product(13, "White Elegance", 5590.00, "fresh", "pics/f5.jpg", 
+        "Pure white flowers including lilies, roses, and orchids arranged for a sophisticated and clean look. Ideal for weddings and formal events.",
+        ["pics/f5.jpg", "pics/f4.jpg", "pics/f6.jpg"]),
+    
+    new Product(14, "Tropical Bliss", 3890.00, "fresh", "pics/f6.jpg", 
+        "Exotic tropical flowers featuring birds of paradise, anthuriums, and tropical greens. Brings a vacation vibe to any space.",
+        ["pics/f6.jpg", "pics/f4.jpg", "pics/f5.jpg"]),
+
     // Synthetic Flowers
-    new Product(13, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
-        "Lifelike synthetic flowers that last forever. These beautifully crafted roses maintain their vibrant color and delicate appearance year after year, requiring no maintenance or watering.",
+    new Product(12, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
+        "Lifelike synthetic flowers that last forever. These beautifully crafted roses maintain their vibrant color and delicate appearance year after year.",
         ["pics/s1.jpg", "pics/s2.jpg", "pics/s3.jpg"]),
     
-    new Product(14, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
-        "Silk flowers with remarkable realism. Our silk arrangements capture the delicate beauty of real flowers with incredible attention to detail, from the veining in the leaves to the natural curve of each petal.",
+    new Product(13, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
+        "Silk flowers with remarkable realism. Our silk arrangements capture the delicate beauty of real flowers with incredible attention to detail.",
         ["pics/ff2.jpg", "pics/s1.jpg", "pics/s2.jpg"]),
     
-    new Product(15, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
+    new Product(14, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
         "Velvety textures that mimic real petals. These synthetic flowers have a soft, realistic feel that closely resembles fresh blooms.",
         ["pics/s2.jpg", "pics/s1.jpg", "pics/ff2.jpg"]),
     
+    new Product(15, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
+        "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
+        ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
+    
+    new Product(16, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
+        "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
+        ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
+    
+    new Product(17, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
+        "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
+        ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
+
+    new Product(18, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
+        "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
+        ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
+    
+    new Product(19, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
+        "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
+        ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
+    
+    new Product(20, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
+        "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
+        ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
+    
     // Seasonal Flowers
-    new Product(19, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
-        "Fresh spring tulips in vibrant colors. Celebrate the arrival of spring with this cheerful bouquet of mixed tulips in shades of pink, yellow, and purple. Each stem represents new beginnings and fresh starts.",
+    new Product(18, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
+        "Fresh spring tulips in vibrant colors. Celebrate the arrival of spring with this cheerful bouquet of mixed tulips in shades of pink, yellow, and purple.",
         ["pics/spring1.webp", "pics/spring2.jpg", "pics/spring3.jpg"]),
     
-    new Product(20, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
-        "Bright sunflowers to capture summer joy. These vibrant flowers bring the warmth and happiness of summer into any space with their cheerful yellow petals and dark centers.",
-        ["pics/summer1.jpg", "pics/spring1.webp", "pics/fall.jpg"])
+    new Product(19, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
+        "Bright sunflowers to capture summer joy. These vibrant flowers bring the warmth and happiness of summer into any space.",
+        ["pics/summer1.jpg", "pics/spring1.webp", "pics/fall.jpg"]),
+    
+    new Product(20, "Autumn Harvest", 2899.00, "seasonal", "pics/fall.jpg", 
+        "Warm autumn colors featuring chrysanthemums, dahlias, and seasonal foliage. Perfect for fall celebrations and Thanksgiving.",
+        ["pics/fall.jpg", "pics/spring1.webp", "pics/summer1.jpg"])
 ];
 
 // Global Variables
@@ -379,6 +467,8 @@ const toastMessage = document.getElementById('toast-message');
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 const productContainer = document.getElementById('product-container');
+const freshContainer = document.getElementById('fresh-products');
+const syntheticContainer = document.getElementById('synthetic-products');
 const navLinks = document.querySelectorAll('.nav-menu li a');
 const sortSelect = document.getElementById('sort-select');
 
@@ -405,57 +495,118 @@ const submitOrderBtn = document.getElementById('submit-order');
 // Initialize the application
 function init() {
     console.log('Initializing application...');
-    renderProducts();
+    loadCartFromStorage();
+    loadWishlistFromStorage();
+    renderAllProducts();
     setupEventListeners();
+    setupWishlistEventListeners();
     updateCartUI();
     updateWishlistUI();
     initCheckout();
     initHeroAnimation();
+    initGallery();
 }
 
-// Render products to the page
-function renderProducts() {
-    productContainer.innerHTML = '<div class="loading">Loading products...</div>';
-    
-    setTimeout(() => {
-        let productsToShow = productCatalog;
-        
-        // Filter by category if not 'all'
-        if (currentCategory !== 'all') {
-            productsToShow = productCatalog.filter(product => 
-                product.category === currentCategory
-            );
-        }
+// Render all products to their respective sections
+function renderAllProducts() {
+    renderBestSellers();
+    renderFreshFlowers();
+    renderSyntheticFlowers();
+}
 
-        // Sort products using our custom sorting algorithms
-        productsToShow = sortProducts(productsToShow, sortSelect.value);
-        
-        // Render products
-        productContainer.innerHTML = productsToShow.map(product => `
-            <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-                ${product.category === 'best-sellers' ? '<div class="product-badge">Bestseller</div>' : ''}
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">${product.name}</div>
-                    <div class="product-description">${product.description.substring(0, 80)}...</div>
-                    <div class="product-price">₱${product.price.toLocaleString()}</div>
-                    <div class="product-actions">
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus" data-id="${product.id}">-</button>
-                            <span class="quantity" data-id="${product.id}">1</span>
-                            <button class="quantity-btn plus" data-id="${product.id}">+</button>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-                            <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
+// Render best sellers products
+function renderBestSellers() {
+    if (!productContainer) return;
+    
+    let productsToShow = productCatalog.filter(product => product.category === 'best-sellers');
+    productsToShow = sortProducts(productsToShow, sortSelect.value);
+    
+    productContainer.innerHTML = productsToShow.map(product => `
+        <div class="product-card" data-id="${product.id}" data-category="${product.category}">
+            <div class="product-badge">Bestseller</div>
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+                <div class="product-name">${product.name}</div>
+                <div class="product-description">${product.description.substring(0, 80)}...</div>
+                <div class="product-price">₱${product.price.toLocaleString()}</div>
+                <div class="product-actions">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <span class="quantity" data-id="${product.id}">1</span>
+                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-        `).join('');
-    }, 500);
+        </div>
+    `).join('');
+}
+
+// Render fresh flowers products
+function renderFreshFlowers() {
+    if (!freshContainer) return;
+    
+    const freshProducts = productCatalog.filter(product => product.category === 'fresh');
+    
+    freshContainer.innerHTML = freshProducts.map(product => `
+        <div class="product-card" data-id="${product.id}" data-category="${product.category}">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+                <div class="product-name">${product.name}</div>
+                <div class="product-description">${product.description.substring(0, 80)}...</div>
+                <div class="product-price">₱${product.price.toLocaleString()}</div>
+                <div class="product-actions">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <span class="quantity" data-id="${product.id}">1</span>
+                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Render synthetic flowers products
+function renderSyntheticFlowers() {
+    if (!syntheticContainer) return;
+    
+    const syntheticProducts = productCatalog.filter(product => product.category === 'synthetic');
+    
+    syntheticContainer.innerHTML = syntheticProducts.map(product => `
+        <div class="product-card" data-id="${product.id}" data-category="${product.category}">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+                <div class="product-name">${product.name}</div>
+                <div class="product-description">${product.description.substring(0, 80)}...</div>
+                <div class="product-price">₱${product.price.toLocaleString()}</div>
+                <div class="product-actions">
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <span class="quantity" data-id="${product.id}">1</span>
+                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
 
 // Sort products using custom sorting algorithms
@@ -476,7 +627,6 @@ function sortProducts(products, sortBy) {
     }
 }
 
-// Setup event listeners
 function setupEventListeners() {
     // Cart toggle
     cartIcon.addEventListener('click', toggleCart);
@@ -527,25 +677,30 @@ function setupEventListeners() {
         renderProducts();
     });
 
-    // Product interactions
+    // Product interactions - MAKE SURE THIS IS WORKING
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart')) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
+        // Add to cart button
+        if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+            const button = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
+            const productId = parseInt(button.getAttribute('data-id'));
             addToCart(productId);
         }
 
+        // Quantity buttons
         if (e.target.classList.contains('quantity-btn')) {
             const productId = parseInt(e.target.getAttribute('data-id'));
             const isPlus = e.target.classList.contains('plus');
             updateProductQuantity(productId, isPlus);
         }
 
+        // Wishlist buttons
         if (e.target.closest('.wishlist-btn')) {
             const wishlistBtn = e.target.closest('.wishlist-btn');
             const productId = parseInt(wishlistBtn.getAttribute('data-id'));
             toggleWishlist(productId, wishlistBtn);
         }
 
+        // Product card click for modal
         if (e.target.closest('.product-card')) {
             const productCard = e.target.closest('.product-card');
             if (!e.target.closest('.product-actions')) {
@@ -555,13 +710,16 @@ function setupEventListeners() {
         }
     });
 
-    // Cart interactions
-    cartItems.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-item')) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
+    // Cart interactions - MAKE SURE THIS IS WORKING
+    document.addEventListener('click', function(e) {
+        // Remove item from cart
+        if (e.target.classList.contains('remove-item') || e.target.closest('.remove-item')) {
+            const button = e.target.classList.contains('remove-item') ? e.target : e.target.closest('.remove-item');
+            const productId = parseInt(button.getAttribute('data-id'));
             removeFromCart(productId);
         }
 
+        // Cart quantity buttons
         if (e.target.classList.contains('cart-quantity-btn')) {
             const productId = parseInt(e.target.getAttribute('data-id'));
             const isIncrease = e.target.classList.contains('increase');
@@ -624,25 +782,6 @@ function setupEventListeners() {
     searchInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') performSearch();
     });
-}
-
-// Initialize checkout functionality
-function initCheckout() {
-    console.log('Initializing checkout...');
-    
-    if (closeCheckout) {
-        closeCheckout.addEventListener('click', toggleCheckoutModal);
-    }
-    
-    if (cancelCheckout) {
-        cancelCheckout.addEventListener('click', toggleCheckoutModal);
-    }
-    
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', handleCheckoutSubmit);
-    }
-    
-    setupRealTimeValidation();
 }
 
 // Toggle checkout modal
@@ -832,7 +971,7 @@ function resetCheckoutForm() {
     });
 }
 
-// PROCEED TO CHECKOUT FUNCTION - THIS IS THE CORRECT ONE
+// PROCEED TO CHECKOUT FUNCTION
 function proceedToCheckout() {
     console.log('Proceed to checkout clicked');
     
@@ -844,13 +983,14 @@ function proceedToCheckout() {
     toggleCheckoutModal();
 }
 
-// Toggle cart sidebar
+// Toggle cart modal
 function toggleCart() {
-    cartSidebar.classList.toggle('active');
+    const cartModal = document.getElementById('cart-modal');
+    cartModal.classList.toggle('active');
     overlay.classList.toggle('active');
-    document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
+    document.body.style.overflow = cartModal.classList.contains('active') ? 'hidden' : '';
     
-    if (cartSidebar.classList.contains('active')) {
+    if (cartModal.classList.contains('active')) {
         wishlistModal.classList.remove('active');
         productModal.classList.remove('active');
         checkoutModal.classList.remove('active');
@@ -951,6 +1091,7 @@ function addToCart(productId, quantity = null) {
     }
 
     updateCartUI();
+    saveCartToStorage();
     showToast(`${product.name} added to cart!`);
     
     if (!quantity) {
@@ -1030,6 +1171,7 @@ function toggleWishlist(productId, button) {
     }
     
     updateWishlistUI();
+    saveWishlistToStorage();
 }
 
 // Move product from wishlist to cart
@@ -1080,50 +1222,169 @@ function removeFromWishlist(productId) {
     showToast(`${product.name} removed from wishlist`);
 }
 
-// Update cart UI
+// Update cart UI function
 function updateCartUI() {
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const cartCount = document.getElementById('cart-count');
+    const undoBtn = document.getElementById('undo-btn');
     const items = shoppingCart.getItems();
-    cartItems.innerHTML = items.length > 0 
-        ? items.map(item => `
+    
+    if (items.length === 0) {
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Your Cart is Empty</h4>
+                <p>Add some beautiful flowers to get started!</p>
+                <button class="continue-shopping" onclick="toggleCart()">Continue Shopping</button>
+            </div>
+        `;
+    } else {
+        cartItems.innerHTML = items.map(item => `
             <div class="cart-item">
                 <img src="${item.product.image}" alt="${item.product.name}" class="cart-item-image">
-                <div class="cart-item-details">
-                    <div class="cart-item-name">${item.product.name}</div>
-                    <div class="cart-item-price">₱${item.product.price.toLocaleString()}</div>
-                    <div class="cart-item-quantity">
-                        <button class="cart-quantity-btn decrease" data-id="${item.product.id}">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="cart-quantity-btn increase" data-id="${item.product.id}">+</button>
+                <div class="cart-item-content">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.product.name}</div>
+                        <div class="cart-item-price">₱${item.product.price.toLocaleString()} each</div>
+                        <div class="cart-item-quantity">
+                            <button class="cart-quantity-btn decrease" data-id="${item.product.id}">-</button>
+                            <span style="font-weight: bold; min-width: 30px; text-align: center;">${item.quantity}</span>
+                            <button class="cart-quantity-btn increase" data-id="${item.product.id}">+</button>
+                        </div>
                     </div>
-                    <button class="remove-item" data-id="${item.product.id}">Remove</button>
+                    <div class="cart-item-actions">
+                        <div class="item-total">
+                            ₱${(item.product.price * item.quantity).toLocaleString()}
+                        </div>
+                        <button class="remove-item" data-id="${item.product.id}" title="Remove item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        `).join('')
-        : '<p style="text-align: center; padding: 2rem;">Your cart is empty</p>';
+        `).join('');
+    }
 
     cartTotal.textContent = `₱${shoppingCart.total.toLocaleString()}`;
     cartCount.textContent = shoppingCart.size;
     undoBtn.style.display = actionHistory.size() > 0 ? 'block' : 'none';
 }
 
-// Update wishlist UI
+
+// Update wishlist UI with new design
 function updateWishlistUI() {
+    const wishlistItems = document.getElementById('wishlist-items');
+    const wishlistEmpty = document.getElementById('wishlist-empty');
+    const wishlistActions = document.getElementById('wishlist-actions');
+    const wishlistCount = document.getElementById('wishlist-count');
     const items = productCatalog.filter(product => wishlist.includes(product.id));
-    wishlistItems.innerHTML = items.length > 0 
-        ? items.map(product => `
+    
+    wishlistCount.textContent = items.length;
+    
+    if (items.length === 0) {
+        wishlistItems.style.display = 'none';
+        wishlistActions.style.display = 'none';
+        wishlistEmpty.classList.add('active');
+    } else {
+        wishlistItems.style.display = 'grid';
+        wishlistActions.style.display = 'flex';
+        wishlistEmpty.classList.remove('active');
+        
+        wishlistItems.innerHTML = items.map(product => `
             <div class="wishlist-item">
                 <img src="${product.image}" alt="${product.name}" class="wishlist-item-image">
-                <div class="wishlist-item-details">
-                    <div class="wishlist-item-name">${product.name}</div>
-                    <div class="wishlist-item-price">₱${product.price.toLocaleString()}</div>
-                    <button class="move-to-cart" data-id="${product.id}">Add to Cart</button>
-                    <button class="remove-wishlist" data-id="${product.id}">Remove</button>
+                <div class="wishlist-item-content">
+                    <div class="wishlist-item-details">
+                        <div class="wishlist-item-name">${product.name}</div>
+                        <div class="wishlist-item-category">${product.category.replace('-', ' ')}</div>
+                        <div class="wishlist-item-price">₱${product.price.toLocaleString()}</div>
+                    </div>
+                    <div class="wishlist-item-actions">
+                        <button class="move-to-cart" data-id="${product.id}">
+                            <i class="fas fa-shopping-cart"></i>
+                            Add to Cart
+                        </button>
+                        <button class="remove-wishlist" data-id="${product.id}" title="Remove from wishlist">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        `).join('')
-        : '<div class="empty-wishlist">Your wishlist is empty</div>';
+        `).join('');
+    }
+}
 
-    wishlistCount.textContent = wishlist.length;
+// Add event listeners for new wishlist buttons
+function setupWishlistEventListeners() {
+    // Clear wishlist button
+    const clearWishlistBtn = document.getElementById('clear-wishlist');
+    if (clearWishlistBtn) {
+        clearWishlistBtn.addEventListener('click', clearWishlist);
+    }
+    
+    // Share wishlist button
+    const shareWishlistBtn = document.getElementById('share-wishlist');
+    if (shareWishlistBtn) {
+        shareWishlistBtn.addEventListener('click', shareWishlist);
+    }
+}
+
+// Clear entire wishlist
+function clearWishlist() {
+    if (wishlist.length === 0) return;
+    
+    if (confirm('Are you sure you want to clear your entire wishlist?')) {
+        wishlist = [];
+        updateWishlistUI();
+        showToast('Wishlist cleared');
+        
+        // Update all wishlist buttons on the page
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+    }
+}
+
+// Share wishlist functionality
+function shareWishlist() {
+    const items = productCatalog.filter(product => wishlist.includes(product.id));
+    
+    if (items.length === 0) {
+        showToast('Your wishlist is empty!');
+        return;
+    }
+    
+    const wishlistText = items.map(item => `• ${item.name} - ₱${item.price.toLocaleString()}`).join('\n');
+    const shareText = `My Flower Wishlist from Fiora Atelier:\n\n${wishlistText}\n\nTotal: ${items.length} items`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Flower Wishlist',
+            text: shareText,
+            url: window.location.href
+        }).catch(() => {
+            copyToClipboard(shareText);
+        });
+    } else {
+        copyToClipboard(shareText);
+    }
+}
+
+// Copy to clipboard utility
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Wishlist copied to clipboard!');
+    }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('Wishlist copied to clipboard!');
+    });
 }
 
 // Undo last action
@@ -1152,24 +1413,178 @@ function undoLastAction() {
     updateCartUI();
 }
 
-// Search
+function initGallery() {
+    let filterBtns = document.querySelectorAll('.filter-btn');
+    let galleryItems = document.querySelectorAll('.gallery-item');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImage = document.querySelector('.lightbox-image');
+    const lightboxTitle = document.querySelector('.lightbox-title');
+    const lightboxDescription = document.querySelector('.lightbox-description');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.querySelector('.lightbox-prev');
+    const lightboxNext = document.querySelector('.lightbox-next');
+    
+    let currentImageIndex = 0;
+    let galleryImages = [];
 
+    // Function to refresh gallery items (call this after adding new items)
+    function refreshGalleryItems() {
+        galleryItems = document.querySelectorAll('.gallery-item');
+        galleryImages = []; // Clear existing images
+        
+        galleryItems.forEach((item, index) => {
+            const img = item.querySelector('img');
+            const title = item.querySelector('h4');
+            const description = item.querySelector('p');
+            
+            if (img && title && description) {
+                galleryImages.push({
+                    src: img.src,
+                    title: title.textContent,
+                    description: description.textContent
+                });
+            }
+        });
+    }
+
+    // Initialize gallery images
+    refreshGalleryItems();
+
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter items
+            galleryItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                    // Force reflow
+                    void item.offsetWidth;
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+
+    // Lightbox functionality
+    function setupLightboxEvents() {
+        galleryItems.forEach((item, index) => {
+            const viewBtn = item.querySelector('.gallery-view-btn');
+            
+            // Remove existing event listeners
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
+            
+            // Get fresh references
+            const freshItem = document.querySelectorAll('.gallery-item')[index];
+            const freshViewBtn = freshItem.querySelector('.gallery-view-btn');
+            
+            // Click on view button
+            freshViewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLightbox(index);
+            });
+
+            // Click on gallery item
+            freshItem.addEventListener('click', () => {
+                openLightbox(index);
+            });
+        });
+    }
+
+    setupLightboxEvents();
+
+    function openLightbox(index) {
+        if (index >= galleryImages.length) return;
+        
+        currentImageIndex = index;
+        const image = galleryImages[index];
+        
+        lightboxImage.src = image.src;
+        lightboxTitle.textContent = image.title;
+        lightboxDescription.textContent = image.description;
+        
+        lightboxModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function navigateLightbox(direction) {
+        currentImageIndex += direction;
+        
+        if (currentImageIndex < 0) {
+            currentImageIndex = galleryImages.length - 1;
+        } else if (currentImageIndex >= galleryImages.length) {
+            currentImageIndex = 0;
+        }
+        
+        const image = galleryImages[currentImageIndex];
+        lightboxImage.src = image.src;
+        lightboxTitle.textContent = image.title;
+        lightboxDescription.textContent = image.description;
+    }
+
+    // Event listeners for lightbox
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+    lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+    // Close lightbox on overlay click
+    lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) {
+            closeLightbox();
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightboxModal.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    // Public function to refresh gallery (call this after adding new items dynamically)
+    window.refreshGallery = function() {
+        refreshGalleryItems();
+        setupLightboxEvents();
+        filterBtns = document.querySelectorAll('.filter-btn'); // Refresh buttons too
+    };
+}
+
+// Search functionality
 let searchTimeout;
 
 function performSearch() {
     const query = searchInput.value.toLowerCase().trim();
     
-    // Clear previous timeout
     clearTimeout(searchTimeout);
     
-    // Set new timeout (debounce only)
     searchTimeout = setTimeout(() => {
         if (query === '') {
-            renderProducts();
+            renderAllProducts();
             return;
         }
 
-        // Show loading state ONLY if we have a query
         if (query.length > 0) {
             productContainer.innerHTML = `
                 <div class="search-loading" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
@@ -1179,17 +1594,30 @@ function performSearch() {
             `;
         }
 
-        const filteredProducts = productCatalog.filter(product => 
+        // Search across ALL categories and ALL seasonal products
+        const allProducts = [
+            ...productCatalog,
+            ...(window.fallProducts || []),
+            ...(window.springProducts || []),
+            ...(window.summerProducts || []),
+            ...(window.winterProducts || [])
+        ];
+
+        const filteredProducts = allProducts.filter(product => 
             product.name.toLowerCase().includes(query) || 
             product.description.toLowerCase().includes(query) ||
-            product.category.toLowerCase().includes(query)
+            product.category.toLowerCase().includes(query) ||
+            (product.tags && product.tags.some(tag => tag.toLowerCase().includes(query)))
         );
 
-        // REMOVE THE INNER setTimeout! Render immediately:
         productContainer.innerHTML = filteredProducts.length > 0 
             ? filteredProducts.map(product => `
                 <div class="product-card" data-id="${product.id}" data-category="${product.category}">
                     ${product.category === 'best-sellers' ? '<div class="product-badge">Bestseller</div>' : ''}
+                    ${product.category === 'fall' ? '<div class="product-badge" style="background: #8B4513;">Autumn</div>' : ''}
+                    ${product.category === 'spring' ? '<div class="product-badge" style="background: #90EE90;">Spring</div>' : ''}
+                    ${product.category === 'summer' ? '<div class="product-badge" style="background: #FFD700;">Summer</div>' : ''}
+                    ${product.category === 'winter' ? '<div class="product-badge" style="background: #87CEEB;">Winter</div>' : ''}
                     <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
@@ -1215,6 +1643,7 @@ function performSearch() {
                   <i class="fas fa-search" style="font-size: 3rem; color: var(--secondary); margin-bottom: 1rem;"></i>
                   <h3 style="color: var(--primary); margin-bottom: 0.5rem;">No products found</h3>
                   <p style="color: var(--text);">We couldn't find any products matching "${query}"</p>
+                  <p style="color: var(--text); font-size: 0.9rem; margin-top: 1rem;">Try searching for: roses, tulips, wedding, birthday, or seasonal flowers</p>
                </div>`;
         
         if (query !== '') {
@@ -1224,7 +1653,7 @@ function performSearch() {
                 name.innerHTML = text.replace(regex, '<mark>$1</mark>');
             });
         }
-    }, 300); // Debounce delay only
+    }, 300);
 }
 
 // Show toast notification
