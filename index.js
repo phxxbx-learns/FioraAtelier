@@ -16,7 +16,7 @@ function initHeroAnimation() {
     }
 }
 
-// Local Storage Functions
+// Local Storage Functions (saving only, no auto-loading)
 function saveCartToStorage() {
     const cartData = {
         items: shoppingCart.getItems().map(item => ({
@@ -29,33 +29,8 @@ function saveCartToStorage() {
     localStorage.setItem('fioraCart', JSON.stringify(cartData));
 }
 
-function loadCartFromStorage() {
-    const savedCart = localStorage.getItem('fioraCart');
-    if (savedCart) {
-        const cartData = JSON.parse(savedCart);
-        shoppingCart.clear();
-        
-        cartData.items.forEach(itemData => {
-            const product = productCatalog.find(p => p.id === itemData.productId);
-            if (product) {
-                shoppingCart.addItem(product, itemData.quantity);
-            }
-        });
-        
-        shoppingCart.total = cartData.total;
-        shoppingCart.size = cartData.size;
-    }
-}
-
 function saveWishlistToStorage() {
     localStorage.setItem('fioraWishlist', JSON.stringify(wishlist));
-}
-
-function loadWishlistFromStorage() {
-    const savedWishlist = localStorage.getItem('fioraWishlist');
-    if (savedWishlist) {
-        wishlist = JSON.parse(savedWishlist);
-    }
 }
 
 // Data Structures Implementation
@@ -95,6 +70,17 @@ class ShoppingCart {
 
     // Add item to cart (insert at end)
     addItem(product, quantity) {
+        const MAX_ITEMS = 99;
+        
+        // Check if adding would exceed limit
+        const currentItem = this.getItems().find(item => item.product.id === product.id);
+        const currentQty = currentItem ? currentItem.quantity : 0;
+        const newQty = currentQty + quantity;
+        
+        if (newQty > MAX_ITEMS) {
+            throw new Error(`Maximum ${MAX_ITEMS} items allowed per product`);
+        }
+        
         const newItem = new CartItem(product, quantity);
         
         if (this.head === null) {
@@ -150,6 +136,12 @@ class ShoppingCart {
 
     // Update item quantity
     updateQuantity(productId, newQuantity) {
+        const MAX_ITEMS = 99;
+        
+        if (newQuantity > MAX_ITEMS) {
+            throw new Error(`Maximum ${MAX_ITEMS} items allowed per product`);
+        }
+        
         let current = this.head;
         while (current !== null) {
             if (current.product.id === productId) {
@@ -344,10 +336,6 @@ const productCatalog = [
     new Product(5, "Pinkish Belle", 5390.00, "best-sellers", "pics/b5.webp", 
         "Delicate pink flowers arranged with timeless elegance. A beautiful combination of pink peonies, roses, and carnations.",
         ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
-    
-    new Product(5, "Pinkish Belle", 5390.00, "best-sellers", "pics/b5.webp", 
-        "Delicate pink flowers arranged with timeless elegance. A beautiful combination of pink peonies, roses, and carnations.",
-        ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
 
     // Fresh Flowers
     new Product(6, "Blooms Blush", 15999.00, "fresh", "pics/f1.jpg", 
@@ -387,30 +375,18 @@ const productCatalog = [
         ["pics/f6.jpg", "pics/f4.jpg", "pics/f5.jpg"]),
 
     // Synthetic Flowers
-    new Product(12, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
+    new Product(15, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
         "Lifelike synthetic flowers that last forever. These beautifully crafted roses maintain their vibrant color and delicate appearance year after year.",
         ["pics/s1.jpg", "pics/s2.jpg", "pics/s3.jpg"]),
     
-    new Product(13, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
+    new Product(16, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
         "Silk flowers with remarkable realism. Our silk arrangements capture the delicate beauty of real flowers with incredible attention to detail.",
         ["pics/ff2.jpg", "pics/s1.jpg", "pics/s2.jpg"]),
     
-    new Product(14, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
+    new Product(17, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
         "Velvety textures that mimic real petals. These synthetic flowers have a soft, realistic feel that closely resembles fresh blooms.",
         ["pics/s2.jpg", "pics/s1.jpg", "pics/ff2.jpg"]),
     
-    new Product(15, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
-        "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
-        ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
-    
-    new Product(16, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
-        "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
-        ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
-    
-    new Product(17, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
-        "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
-        ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
-
     new Product(18, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
         "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
         ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
@@ -422,17 +398,29 @@ const productCatalog = [
     new Product(20, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
         "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
         ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
+
+    new Product(21, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
+        "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
+        ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
+    
+    new Product(22, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
+        "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
+        ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
+    
+    new Product(23, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
+        "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
+        ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
     
     // Seasonal Flowers
-    new Product(18, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
+    new Product(24, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
         "Fresh spring tulips in vibrant colors. Celebrate the arrival of spring with this cheerful bouquet of mixed tulips in shades of pink, yellow, and purple.",
         ["pics/spring1.webp", "pics/spring2.jpg", "pics/spring3.jpg"]),
     
-    new Product(19, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
+    new Product(25, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
         "Bright sunflowers to capture summer joy. These vibrant flowers bring the warmth and happiness of summer into any space.",
         ["pics/summer1.jpg", "pics/spring1.webp", "pics/fall.jpg"]),
     
-    new Product(20, "Autumn Harvest", 2899.00, "seasonal", "pics/fall.jpg", 
+    new Product(26, "Autumn Harvest", 2899.00, "seasonal", "pics/fall.jpg", 
         "Warm autumn colors featuring chrysanthemums, dahlias, and seasonal foliage. Perfect for fall celebrations and Thanksgiving.",
         ["pics/fall.jpg", "pics/spring1.webp", "pics/summer1.jpg"])
 ];
@@ -448,7 +436,7 @@ let currentProductModal = null;
 // DOM Elements
 const cartIcon = document.getElementById('cart-icon');
 const closeCart = document.getElementById('close-cart');
-const cartSidebar = document.getElementById('cart-sidebar');
+const cartModal = document.getElementById('cart-modal');
 const wishlistIcon = document.getElementById('wishlist-icon');
 const closeWishlist = document.getElementById('close-wishlist');
 const wishlistModal = document.getElementById('wishlist-modal');
@@ -471,6 +459,10 @@ const freshContainer = document.getElementById('fresh-products');
 const syntheticContainer = document.getElementById('synthetic-products');
 const navLinks = document.querySelectorAll('.nav-menu li a');
 const sortSelect = document.getElementById('sort-select');
+const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+const mobileNavClose = document.getElementById('mobile-nav-close');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav-menu li a');
 
 // Product Modal Elements
 const productMainImage = document.getElementById('product-main-image');
@@ -492,11 +484,24 @@ const cancelCheckout = document.getElementById('cancel-checkout');
 const checkoutForm = document.getElementById('checkout-form');
 const submitOrderBtn = document.getElementById('submit-order');
 
+// Debounce function for performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Initialize the application
 function init() {
     console.log('Initializing application...');
-    loadCartFromStorage();
-    loadWishlistFromStorage();
+    console.log('Cart data from localStorage:', localStorage.getItem('fioraCart'));
+    console.log('Wishlist data from localStorage:', localStorage.getItem('fioraWishlist'));
     renderAllProducts();
     setupEventListeners();
     setupWishlistEventListeners();
@@ -524,20 +529,20 @@ function renderBestSellers() {
     productContainer.innerHTML = productsToShow.map(product => `
         <div class="product-card" data-id="${product.id}" data-category="${product.category}">
             <div class="product-badge">Bestseller</div>
-            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-description">${product.description.substring(0, 80)}...</div>
                 <div class="product-price">₱${product.price.toLocaleString()}</div>
                 <div class="product-actions">
                     <div class="quantity-controls">
-                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <button class="quantity-btn minus" data-id="${product.id}" aria-label="Decrease quantity">-</button>
                         <span class="quantity" data-id="${product.id}">1</span>
-                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                        <button class="quantity-btn plus" data-id="${product.id}" aria-label="Increase quantity">+</button>
                     </div>
                     <div class="action-buttons">
-                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                        <button class="add-to-cart" data-id="${product.id}" aria-label="Add to cart">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}" aria-label="Add to wishlist">
                             <i class="fas fa-heart"></i>
                         </button>
                     </div>
@@ -555,20 +560,20 @@ function renderFreshFlowers() {
     
     freshContainer.innerHTML = freshProducts.map(product => `
         <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-description">${product.description.substring(0, 80)}...</div>
                 <div class="product-price">₱${product.price.toLocaleString()}</div>
                 <div class="product-actions">
                     <div class="quantity-controls">
-                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <button class="quantity-btn minus" data-id="${product.id}" aria-label="Decrease quantity">-</button>
                         <span class="quantity" data-id="${product.id}">1</span>
-                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                        <button class="quantity-btn plus" data-id="${product.id}" aria-label="Increase quantity">+</button>
                     </div>
                     <div class="action-buttons">
-                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                        <button class="add-to-cart" data-id="${product.id}" aria-label="Add to cart">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}" aria-label="Add to wishlist">
                             <i class="fas fa-heart"></i>
                         </button>
                     </div>
@@ -586,20 +591,20 @@ function renderSyntheticFlowers() {
     
     syntheticContainer.innerHTML = syntheticProducts.map(product => `
         <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-description">${product.description.substring(0, 80)}...</div>
                 <div class="product-price">₱${product.price.toLocaleString()}</div>
                 <div class="product-actions">
                     <div class="quantity-controls">
-                        <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                        <button class="quantity-btn minus" data-id="${product.id}" aria-label="Decrease quantity">-</button>
                         <span class="quantity" data-id="${product.id}">1</span>
-                        <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                        <button class="quantity-btn plus" data-id="${product.id}" aria-label="Increase quantity">+</button>
                     </div>
                     <div class="action-buttons">
-                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                        <button class="add-to-cart" data-id="${product.id}" aria-label="Add to cart">Add to Cart</button>
+                        <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}" aria-label="Add to wishlist">
                             <i class="fas fa-heart"></i>
                         </button>
                     </div>
@@ -627,25 +632,93 @@ function sortProducts(products, sortBy) {
     }
 }
 
+// Render products based on current category
+function renderProducts() {
+    if (currentCategory === 'all') {
+        renderBestSellers();
+    } else {
+        // For other categories, you can implement filtering
+        const filteredProducts = productCatalog.filter(product => 
+            product.category === currentCategory
+        );
+        // Implementation depends on your specific needs
+        console.log(`Rendering ${currentCategory} products:`, filteredProducts.length);
+    }
+}
+
 function setupEventListeners() {
-    // Cart toggle
-    cartIcon.addEventListener('click', toggleCart);
-    closeCart.addEventListener('click', toggleCart);
+    // Cart toggle - FIXED
+    if (cartIcon) {
+        cartIcon.addEventListener('click', toggleCart);
+    }
+    if (closeCart) {
+        closeCart.addEventListener('click', toggleCart);
+    }
     
-    // Wishlist toggle
-    wishlistIcon.addEventListener('click', toggleWishlistModal);
-    closeWishlist.addEventListener('click', toggleWishlistModal);
+    // Wishlist toggle - FIXED
+    if (wishlistIcon) {
+        wishlistIcon.addEventListener('click', toggleWishlistModal);
+    }
+    if (closeWishlist) {
+        closeWishlist.addEventListener('click', toggleWishlistModal);
+    }
     
-    // Product modal
-    closeProductModal.addEventListener('click', toggleProductModal);
+    // Product modal - FIXED
+    if (closeProductModal) {
+        closeProductModal.addEventListener('click', toggleProductModal);
+    }
     
-    // Overlay
-    overlay.addEventListener('click', function() {
-        toggleCart();
-        toggleWishlistModal();
-        toggleProductModal();
-        toggleCheckoutModal();
+    // Checkout modal - FIXED
+    if (closeCheckout) {
+        closeCheckout.addEventListener('click', toggleCheckoutModal);
+    }
+    if (cancelCheckout) {
+        cancelCheckout.addEventListener('click', toggleCheckoutModal);
+    }
+    
+    // Mobile navigation
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileNav);
+    }
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', toggleMobileNav);
+    }
+    
+    // Mobile nav links
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // Close mobile nav
+            toggleMobileNav();
+            
+            // Scroll to section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
+    
+    // Overlay - FIXED
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            toggleCart();
+            toggleWishlistModal();
+            toggleProductModal();
+            toggleCheckoutModal();
+            toggleMobileNav();
+        });
+    }
+
+    // Checkout form submission - FIXED
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', handleCheckoutSubmit);
+    }
 
     // Navigation filtering
     navLinks.forEach(link => {
@@ -673,11 +746,13 @@ function setupEventListeners() {
     });
 
     // Sort functionality
-    sortSelect.addEventListener('change', function() {
-        renderProducts();
-    });
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            renderProducts();
+        });
+    }
 
-    // Product interactions - MAKE SURE THIS IS WORKING
+    // Product interactions
     document.addEventListener('click', function(e) {
         // Add to cart button
         if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
@@ -710,7 +785,7 @@ function setupEventListeners() {
         }
     });
 
-    // Cart interactions - MAKE SURE THIS IS WORKING
+    // Cart interactions
     document.addEventListener('click', function(e) {
         // Remove item from cart
         if (e.target.classList.contains('remove-item') || e.target.closest('.remove-item')) {
@@ -728,66 +803,154 @@ function setupEventListeners() {
     });
 
     // Wishlist interactions
-    wishlistItems.addEventListener('click', function(e) {
-        if (e.target.classList.contains('move-to-cart')) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            moveToCart(productId);
-        }
+    if (wishlistItems) {
+        wishlistItems.addEventListener('click', function(e) {
+            if (e.target.classList.contains('move-to-cart')) {
+                const productId = parseInt(e.target.getAttribute('data-id'));
+                moveToCart(productId);
+            }
 
-        if (e.target.classList.contains('remove-wishlist')) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            removeFromWishlist(productId);
-        }
-    });
+            if (e.target.classList.contains('remove-wishlist')) {
+                const productId = parseInt(e.target.getAttribute('data-id'));
+                removeFromWishlist(productId);
+            }
+        });
+    }
 
     // Product modal interactions
-    modalMinus.addEventListener('click', function() {
-        let quantity = parseInt(modalQuantity.textContent);
-        if (quantity > 1) {
-            modalQuantity.textContent = quantity - 1;
-        }
-    });
-
-    modalPlus.addEventListener('click', function() {
-        let quantity = parseInt(modalQuantity.textContent);
-        modalQuantity.textContent = quantity + 1;
-    });
-
-    modalAddToCart.addEventListener('click', function() {
-        if (currentProductModal) {
-            const quantity = parseInt(modalQuantity.textContent);
-            addToCart(currentProductModal.id, quantity);
-            toggleProductModal();
-        }
-    });
-
-    modalWishlistBtn.addEventListener('click', function() {
-        if (currentProductModal) {
-            toggleWishlist(currentProductModal.id, modalWishlistBtn);
-            const productCardBtn = document.querySelector(`.wishlist-btn[data-id="${currentProductModal.id}"]`);
-            if (productCardBtn) {
-                productCardBtn.classList.toggle('active', wishlist.includes(currentProductModal.id));
+    if (modalMinus) {
+        modalMinus.addEventListener('click', function() {
+            let quantity = parseInt(modalQuantity.textContent);
+            if (quantity > 1) {
+                modalQuantity.textContent = quantity - 1;
             }
-        }
-    });
+        });
+    }
+
+    if (modalPlus) {
+        modalPlus.addEventListener('click', function() {
+            let quantity = parseInt(modalQuantity.textContent);
+            modalQuantity.textContent = quantity + 1;
+        });
+    }
+
+    if (modalAddToCart) {
+        modalAddToCart.addEventListener('click', function() {
+            if (currentProductModal) {
+                const quantity = parseInt(modalQuantity.textContent);
+                addToCart(currentProductModal.id, quantity);
+                toggleProductModal();
+            }
+        });
+    }
+
+    if (modalWishlistBtn) {
+        modalWishlistBtn.addEventListener('click', function() {
+            if (currentProductModal) {
+                toggleWishlist(currentProductModal.id, modalWishlistBtn);
+                const productCardBtn = document.querySelector(`.wishlist-btn[data-id="${currentProductModal.id}"]`);
+                if (productCardBtn) {
+                    productCardBtn.classList.toggle('active', wishlist.includes(currentProductModal.id));
+                }
+            }
+        });
+    }
 
     // Checkout button
-    checkoutBtn.addEventListener('click', proceedToCheckout);
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', proceedToCheckout);
+    }
 
     // Undo button
-    undoBtn.addEventListener('click', undoLastAction);
+    if (undoBtn) {
+        undoBtn.addEventListener('click', undoLastAction);
+    }
 
-    // Search functionality
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') performSearch();
-    });
+    // Search functionality with debounce
+    if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+    }
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(performSearch, 300));
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+    }
 }
 
-// Toggle checkout modal
-function toggleCheckoutModal() {
-    console.log('Toggle checkout modal called');
+// Toggle mobile navigation
+function toggleMobileNav() {
+    if (!mobileNav) return;
     
+    mobileNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+}
+
+// Toggle cart modal - FIXED
+function toggleCart() {
+    if (!cartModal) {
+        console.error('Cart modal not found!');
+        return;
+    }
+    
+    cartModal.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = cartModal.classList.contains('active') ? 'hidden' : '';
+    
+    if (cartModal.classList.contains('active')) {
+        // Close other modals
+        if (wishlistModal) wishlistModal.classList.remove('active');
+        if (productModal) productModal.classList.remove('active');
+        if (checkoutModal) checkoutModal.classList.remove('active');
+        if (mobileNav) mobileNav.classList.remove('active');
+    }
+}
+
+// Toggle wishlist modal - FIXED
+function toggleWishlistModal() {
+    if (!wishlistModal) {
+        console.error('Wishlist modal not found!');
+        return;
+    }
+    
+    wishlistModal.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = wishlistModal.classList.contains('active') ? 'hidden' : '';
+    
+    if (wishlistModal.classList.contains('active')) {
+        // Close other modals
+        if (cartModal) cartModal.classList.remove('active');
+        if (productModal) productModal.classList.remove('active');
+        if (checkoutModal) checkoutModal.classList.remove('active');
+        if (mobileNav) mobileNav.classList.remove('active');
+    }
+}
+
+// Toggle product modal - FIXED
+function toggleProductModal() {
+    if (!productModal) {
+        console.error('Product modal not found!');
+        return;
+    }
+    
+    productModal.classList.toggle('active');
+    overlay.classList.toggle('active');
+    document.body.style.overflow = productModal.classList.contains('active') ? 'hidden' : '';
+    
+    if (productModal.classList.contains('active')) {
+        // Close other modals
+        if (cartModal) cartModal.classList.remove('active');
+        if (wishlistModal) wishlistModal.classList.remove('active');
+        if (checkoutModal) checkoutModal.classList.remove('active');
+        if (mobileNav) mobileNav.classList.remove('active');
+    } else {
+        currentProductModal = null;
+    }
+}
+
+// Toggle checkout modal - FIXED
+function toggleCheckoutModal() {
     if (!checkoutModal) {
         console.error('Checkout modal not found!');
         return;
@@ -798,10 +961,8 @@ function toggleCheckoutModal() {
     document.body.style.overflow = checkoutModal.classList.contains('active') ? 'hidden' : '';
     
     if (checkoutModal.classList.contains('active')) {
-        console.log('Opening checkout modal');
         populateOrderSummary();
     } else {
-        console.log('Closing checkout modal');
         resetCheckoutForm();
     }
 }
@@ -837,6 +998,37 @@ function setupRealTimeValidation() {
     });
 }
 
+// Enhanced validation functions
+function validatePhone(phone) {
+    const phoneRegex = /^[+]?[\d\s\-()]{10,}$/;
+    return phoneRegex.test(phone);
+}
+
+function validateCreditCard(cardNumber) {
+    const cardRegex = /^[0-9]{16}$/;
+    return cardRegex.test(cardNumber.replace(/\s/g, ''));
+}
+
+function validateCVV(cvv) {
+    const cvvRegex = /^[0-9]{3,4}$/;
+    return cvvRegex.test(cvv);
+}
+
+function validateExpiryDate(expiryDate) {
+    const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+    if (!expiryRegex.test(expiryDate)) return false;
+    
+    const [month, year] = expiryDate.split('/');
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+    
+    if (parseInt(year) < currentYear) return false;
+    if (parseInt(year) === currentYear && parseInt(month) < currentMonth) return false;
+    
+    return true;
+}
+
 // Simple field validation
 function validateField(e) {
     const field = e.target;
@@ -859,6 +1051,34 @@ function validateField(e) {
         if (!emailRegex.test(value)) {
             isValid = false;
             errorMessage = 'Please enter a valid email address';
+        }
+    }
+    
+    if (isValid && fieldName === 'phone' && value) {
+        if (!validatePhone(value)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid phone number';
+        }
+    }
+    
+    if (isValid && fieldName === 'cardNumber' && value) {
+        if (!validateCreditCard(value)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid 16-digit card number';
+        }
+    }
+    
+    if (isValid && fieldName === 'cvv' && value) {
+        if (!validateCVV(value)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid CVV (3-4 digits)';
+        }
+    }
+    
+    if (isValid && fieldName === 'expiryDate' && value) {
+        if (!validateExpiryDate(value)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid expiry date (MM/YY)';
         }
     }
     
@@ -914,8 +1134,9 @@ function handleCheckoutSubmit(e) {
     
     submitOrderBtn.disabled = true;
     const originalText = submitOrderBtn.innerHTML;
-    submitOrderBtn.innerHTML = '<div class="loading"></div> Processing...';
+    submitOrderBtn.innerHTML = '<div class="loading-spinner"></div> Processing...';
     
+    // Simulate processing delay
     setTimeout(() => {
         processOrder();
         submitOrderBtn.disabled = false;
@@ -971,7 +1192,7 @@ function resetCheckoutForm() {
     });
 }
 
-// PROCEED TO CHECKOUT FUNCTION
+// PROCEED TO CHECKOUT FUNCTION - FIXED
 function proceedToCheckout() {
     console.log('Proceed to checkout clicked');
     
@@ -980,49 +1201,11 @@ function proceedToCheckout() {
         return;
     }
     
-    toggleCheckoutModal();
-}
-
-// Toggle cart modal
-function toggleCart() {
-    const cartModal = document.getElementById('cart-modal');
-    cartModal.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = cartModal.classList.contains('active') ? 'hidden' : '';
-    
-    if (cartModal.classList.contains('active')) {
-        wishlistModal.classList.remove('active');
-        productModal.classList.remove('active');
-        checkoutModal.classList.remove('active');
-    }
-}
-
-// Toggle wishlist modal
-function toggleWishlistModal() {
-    wishlistModal.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = wishlistModal.classList.contains('active') ? 'hidden' : '';
-    
-    if (wishlistModal.classList.contains('active')) {
-        cartSidebar.classList.remove('active');
-        productModal.classList.remove('active');
-        checkoutModal.classList.remove('active');
-    }
-}
-
-// Toggle product modal
-function toggleProductModal() {
-    productModal.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = productModal.classList.contains('active') ? 'hidden' : '';
-    
-    if (productModal.classList.contains('active')) {
-        cartSidebar.classList.remove('active');
-        wishlistModal.classList.remove('active');
-        checkoutModal.classList.remove('active');
-    } else {
-        currentProductModal = null;
-    }
+    // Close cart modal and open checkout modal
+    toggleCart();
+    setTimeout(() => {
+        toggleCheckoutModal();
+    }, 300);
 }
 
 // Open product modal with product details
@@ -1060,42 +1243,47 @@ function openProductModal(productId) {
     toggleProductModal();
 }
 
-// Add product to cart
+// Add product to cart with error handling
 function addToCart(productId, quantity = null) {
-    const product = productCatalog.find(p => p.id === productId);
-    if (!product) return;
+    try {
+        const product = productCatalog.find(p => p.id === productId);
+        if (!product) return;
 
-    let qty = quantity;
-    if (!qty) {
-        const quantityElement = document.querySelector(`.quantity[data-id="${productId}"]`);
-        qty = parseInt(quantityElement.textContent);
-    }
+        let qty = quantity;
+        if (!qty) {
+            const quantityElement = document.querySelector(`.quantity[data-id="${productId}"]`);
+            qty = parseInt(quantityElement.textContent);
+        }
 
-    const existingItem = shoppingCart.getItems().find(item => item.product.id === productId);
-    
-    if (existingItem) {
-        const action = shoppingCart.updateQuantity(productId, existingItem.quantity + qty);
-        actionHistory.push({
-            type: 'update',
-            productId: productId,
-            oldQuantity: action.oldQuantity,
-            newQuantity: action.newQuantity
-        });
-    } else {
-        shoppingCart.addItem(product, qty);
-        actionHistory.push({
-            type: 'add',
-            productId: productId,
-            quantity: qty
-        });
-    }
+        const existingItem = shoppingCart.getItems().find(item => item.product.id === productId);
+        
+        if (existingItem) {
+            const action = shoppingCart.updateQuantity(productId, existingItem.quantity + qty);
+            actionHistory.push({
+                type: 'update',
+                productId: productId,
+                oldQuantity: action.oldQuantity,
+                newQuantity: action.newQuantity
+            });
+        } else {
+            shoppingCart.addItem(product, qty);
+            actionHistory.push({
+                type: 'add',
+                productId: productId,
+                quantity: qty
+            });
+        }
 
-    updateCartUI();
-    saveCartToStorage();
-    showToast(`${product.name} added to cart!`);
-    
-    if (!quantity) {
-        resetProductQuantity(productId);
+        updateCartUI();
+        saveCartToStorage();
+        showToast(`${product.name} added to cart!`);
+        
+        if (!quantity) {
+            resetProductQuantity(productId);
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showToast(error.message);
     }
 }
 
@@ -1130,21 +1318,26 @@ function updateProductQuantity(productId, isIncrease) {
 
 // Update cart item quantity
 function updateCartQuantity(productId, isIncrease) {
-    const cartItem = shoppingCart.getItems().find(item => item.product.id === productId);
-    if (!cartItem) return;
+    try {
+        const cartItem = shoppingCart.getItems().find(item => item.product.id === productId);
+        if (!cartItem) return;
 
-    const oldQuantity = cartItem.quantity;
-    const newQuantity = isIncrease ? oldQuantity + 1 : Math.max(1, oldQuantity - 1);
-    
-    if (oldQuantity !== newQuantity) {
-        shoppingCart.updateQuantity(productId, newQuantity);
-        actionHistory.push({
-            type: 'update',
-            productId: productId,
-            oldQuantity: oldQuantity,
-            newQuantity: newQuantity
-        });
-        updateCartUI();
+        const oldQuantity = cartItem.quantity;
+        const newQuantity = isIncrease ? oldQuantity + 1 : Math.max(1, oldQuantity - 1);
+        
+        if (oldQuantity !== newQuantity) {
+            shoppingCart.updateQuantity(productId, newQuantity);
+            actionHistory.push({
+                type: 'update',
+                productId: productId,
+                oldQuantity: oldQuantity,
+                newQuantity: newQuantity
+            });
+            updateCartUI();
+        }
+    } catch (error) {
+        console.error('Error updating cart quantity:', error);
+        showToast(error.message);
     }
 }
 
@@ -1233,10 +1426,10 @@ function updateCartUI() {
     if (items.length === 0) {
         cartItems.innerHTML = `
             <div class="empty-cart">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart fa-3x"></i>
                 <h4>Your Cart is Empty</h4>
                 <p>Add some beautiful flowers to get started!</p>
-                <button class="continue-shopping" onclick="toggleCart()">Continue Shopping</button>
+                <button class="continue-shopping" onclick="toggleCart()">Start Shopping</button>
             </div>
         `;
     } else {
@@ -1266,11 +1459,10 @@ function updateCartUI() {
         `).join('');
     }
 
-    cartTotal.textContent = `₱${shoppingCart.total.toLocaleString()}`;
-    cartCount.textContent = shoppingCart.size;
-    undoBtn.style.display = actionHistory.size() > 0 ? 'block' : 'none';
+    if (cartTotal) cartTotal.textContent = `₱${shoppingCart.total.toLocaleString()}`;
+    if (cartCount) cartCount.textContent = shoppingCart.size;
+    if (undoBtn) undoBtn.style.display = actionHistory.size() > 0 ? 'block' : 'none';
 }
-
 
 // Update wishlist UI with new design
 function updateWishlistUI() {
@@ -1280,38 +1472,39 @@ function updateWishlistUI() {
     const wishlistCount = document.getElementById('wishlist-count');
     const items = productCatalog.filter(product => wishlist.includes(product.id));
     
-    wishlistCount.textContent = items.length;
+    if (wishlistCount) wishlistCount.textContent = items.length;
     
     if (items.length === 0) {
-        wishlistItems.style.display = 'none';
-        wishlistActions.style.display = 'none';
-        wishlistEmpty.classList.add('active');
+        if (wishlistItems) wishlistItems.style.display = 'none';
+        if (wishlistActions) wishlistActions.style.display = 'none';
+        if (wishlistEmpty) wishlistEmpty.classList.add('active');
     } else {
-        wishlistItems.style.display = 'grid';
-        wishlistActions.style.display = 'flex';
-        wishlistEmpty.classList.remove('active');
-        
-        wishlistItems.innerHTML = items.map(product => `
-            <div class="wishlist-item">
-                <img src="${product.image}" alt="${product.name}" class="wishlist-item-image">
-                <div class="wishlist-item-content">
-                    <div class="wishlist-item-details">
-                        <div class="wishlist-item-name">${product.name}</div>
-                        <div class="wishlist-item-category">${product.category.replace('-', ' ')}</div>
-                        <div class="wishlist-item-price">₱${product.price.toLocaleString()}</div>
-                    </div>
-                    <div class="wishlist-item-actions">
-                        <button class="move-to-cart" data-id="${product.id}">
-                            <i class="fas fa-shopping-cart"></i>
-                            Add to Cart
-                        </button>
-                        <button class="remove-wishlist" data-id="${product.id}" title="Remove from wishlist">
-                            <i class="fas fa-trash"></i>
-                        </button>
+        if (wishlistItems) {
+            wishlistItems.style.display = 'grid';
+            wishlistItems.innerHTML = items.map(product => `
+                <div class="wishlist-item">
+                    <img src="${product.image}" alt="${product.name}" class="wishlist-item-image">
+                    <div class="wishlist-item-content">
+                        <div class="wishlist-item-details">
+                            <div class="wishlist-item-name">${product.name}</div>
+                            <div class="wishlist-item-category">${product.category.replace('-', ' ')}</div>
+                            <div class="wishlist-item-price">₱${product.price.toLocaleString()}</div>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="move-to-cart" data-id="${product.id}">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="remove-wishlist" data-id="${product.id}" title="Remove from wishlist">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
+        if (wishlistActions) wishlistActions.style.display = 'flex';
+        if (wishlistEmpty) wishlistEmpty.classList.remove('active');
     }
 }
 
@@ -1588,7 +1781,7 @@ function performSearch() {
         if (query.length > 0) {
             productContainer.innerHTML = `
                 <div class="search-loading" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                    <div class="loading" style="margin: 0 auto;"></div>
+                    <div class="loading-spinner" style="margin: 0 auto;"></div>
                     <p>Searching for "${query}"...</p>
                 </div>
             `;
@@ -1625,13 +1818,13 @@ function performSearch() {
                         <div class="product-price">₱${product.price.toLocaleString()}</div>
                         <div class="product-actions">
                             <div class="quantity-controls">
-                                <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                                <button class="quantity-btn minus" data-id="${product.id}" aria-label="Decrease quantity">-</button>
                                 <span class="quantity" data-id="${product.id}">1</span>
-                                <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                                <button class="quantity-btn plus" data-id="${product.id}" aria-label="Increase quantity">+</button>
                             </div>
                             <div class="action-buttons">
-                                <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-                                <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}">
+                                <button class="add-to-cart" data-id="${product.id}" aria-label="Add to cart">Add to Cart</button>
+                                <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" data-id="${product.id}" aria-label="Add to wishlist">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </div>
@@ -1658,12 +1851,19 @@ function performSearch() {
 
 // Show toast notification
 function showToast(message) {
+    if (!toastMessage || !toast) return;
+    
     toastMessage.textContent = message;
     toast.classList.add('show');
     
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
+}
+
+// Initialize checkout functionality
+function initCheckout() {
+    setupRealTimeValidation();
 }
 
 // Initialize the application when DOM is loaded
