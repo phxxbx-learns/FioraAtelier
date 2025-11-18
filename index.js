@@ -337,90 +337,94 @@ const productCatalog = [
         "Delicate pink flowers arranged with timeless elegance. A beautiful combination of pink peonies, roses, and carnations.",
         ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
 
+    new Product(6, "Normandiana Wreath", 6500.00, "best-sellers", "pics/b6.jpg", 
+        "Normandiana Wreath in Pink and Gold is sure to bring a touch of elegance and sophistication to your space with this timelessly beautiful Normandiana Wreath! Perfectly crafted to bring festivity this Christmas season!",
+        ["pics/b5.webp", "pics/b1.webp", "pics/b2.webp"]),
+
     // Fresh Flowers
-    new Product(6, "Blooms Blush", 15999.00, "fresh", "pics/f1.jpg", 
+    new Product(7, "Blooms Blush", 15999.00, "fresh", "pics/f1.jpg", 
         "A luxurious bouquet of premium fresh blooms featuring garden roses, ranunculus, and eucalyptus. Each stem is hand-selected for perfection.",
         ["pics/f1.jpg", "pics/f2.jpg", "pics/f3.jpg"]),
     
-    new Product(7, "Blissful Roses", 6670.00, "fresh", "pics/f2.jpg", 
+    new Product(8, "Blissful Roses", 6670.00, "fresh", "pics/f2.jpg", 
         "Classic roses arranged to perfection. This timeless bouquet features two dozen premium red roses, symbolizing deep love and affection.",
         ["pics/f2.jpg", "pics/f1.jpg", "pics/f3.jpg"]),
     
-    new Product(8, "Rosette", 3490.00, "fresh", "pics/ff3.webp", 
+    new Product(9, "Rosette", 3490.00, "fresh", "pics/ff3.webp", 
         "A charming arrangement of roses and complementary flowers. Features pink and white roses with baby's breath for a classic look.",
         ["pics/ff3.webp", "pics/f1.jpg", "pics/f2.jpg"]),
     
-    new Product(9, "Garden Delight", 4290.00, "fresh", "pics/f4.jpg", 
+    new Product(10, "Garden Delight", 4290.00, "fresh", "pics/Garden delight .jpeg", 
         "A beautiful mix of garden fresh flowers including lilies, chrysanthemums, and seasonal greens. Perfect for bringing a touch of nature indoors.",
-        ["pics/f4.jpg", "pics/f5.jpg", "pics/f6.jpg"]),
+        ["pics/f4.jpg", "pics/T2.jpg", "pics/G2.jpg"]),
     
-    new Product(10, "White Elegance", 5590.00, "fresh", "pics/f5.jpg", 
+    new Product(11, "White Elegance", 5590.00, "fresh", "pics/White elegance .jpg", 
         "Pure white flowers including lilies, roses, and orchids arranged for a sophisticated and clean look. Ideal for weddings and formal events.",
-        ["pics/f5.jpg", "pics/f4.jpg", "pics/f6.jpg"]),
+        ["pics/W1.jpeg", "pics/W2.jpeg", "pics/W1.jpeg"]),
     
-    new Product(11, "Tropical Bliss", 3890.00, "fresh", "pics/f6.jpg", 
+    new Product(12, "Tropical Bliss", 3890.00, "fresh", "pics/Tropicalbliss.jpg", 
         "Exotic tropical flowers featuring birds of paradise, anthuriums, and tropical greens. Brings a vacation vibe to any space.",
-        ["pics/f6.jpg", "pics/f4.jpg", "pics/f5.jpg"]),
+        ["pics/F3.jpeg", "pics/T2.jpg", "pics/T1.jpeg"]),
 
-    new Product(12, "Garden Delight", 4290.00, "fresh", "pics/f4.jpg", 
-    "A beautiful mix of garden fresh flowers including lilies, chrysanthemums, and seasonal greens. Perfect for bringing a touch of nature indoors.",
-    ["pics/f4.jpg", "pics/f5.jpg", "pics/f6.jpg"]),
+    new Product(13, "Pastel Mixed", 4290.00, "fresh", "pics/T2.jpg", 
+    " A symphony of pastels, a harmony of blooms with gentle gestures thats speaks volume",
+        ["pics/f4.jpg", "pics/W2copy.jpeg", "pics/T2.jpg"]),
     
-    new Product(13, "White Elegance", 5590.00, "fresh", "pics/f5.jpg", 
-        "Pure white flowers including lilies, roses, and orchids arranged for a sophisticated and clean look. Ideal for weddings and formal events.",
-        ["pics/f5.jpg", "pics/f4.jpg", "pics/f6.jpg"]),
+    new Product(14, "Vintage Peach Cream", 5590.00, "fresh", "pics/W1.jpeg", 
+        " Where timeless beauty meets modern elegance. Love and light with every bloom.",
+        ["pics/f5.webp", "pics/f6.webp", "pics/f1.jpg"]),
     
-    new Product(14, "Tropical Bliss", 3890.00, "fresh", "pics/f6.jpg", 
-        "Exotic tropical flowers featuring birds of paradise, anthuriums, and tropical greens. Brings a vacation vibe to any space.",
-        ["pics/f6.jpg", "pics/f4.jpg", "pics/f5.jpg"]),
+    new Product(15, "Golden Sunshine", 3890.00, "fresh", "pics/T1.jpeg", 
+        "A radiant reminder of all things bright and beautiful.",
+        ["pics/f6.webp", "pics/f4.jpg", "pics/ff3.webp"]),
 
     // Synthetic Flowers
-    new Product(15, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
+    new Product(16, "Eterna", 349.00, "synthetic", "pics/s1.jpg", 
         "Lifelike synthetic flowers that last forever. These beautifully crafted roses maintain their vibrant color and delicate appearance year after year.",
         ["pics/s1.jpg", "pics/s2.jpg", "pics/s3.jpg"]),
     
-    new Product(16, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
+    new Product(17, "Silken", 299.00, "synthetic", "pics/ff2.jpg", 
         "Silk flowers with remarkable realism. Our silk arrangements capture the delicate beauty of real flowers with incredible attention to detail.",
         ["pics/ff2.jpg", "pics/s1.jpg", "pics/s2.jpg"]),
     
-    new Product(17, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
+    new Product(18, "Velvessa", 349.00, "synthetic", "pics/s2.jpg", 
         "Velvety textures that mimic real petals. These synthetic flowers have a soft, realistic feel that closely resembles fresh blooms.",
         ["pics/s2.jpg", "pics/s1.jpg", "pics/ff2.jpg"]),
     
-    new Product(18, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
+    new Product(19, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
         "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
         ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
     
-    new Product(19, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
+    new Product(20, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
         "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
         ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
     
-    new Product(20, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
+    new Product(21, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
         "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
         ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
 
-    new Product(21, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
+    new Product(22, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
         "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
         ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
     
-    new Product(22, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
+    new Product(23, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
         "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
         ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
     
-    new Product(23, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
+    new Product(24, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
         "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
         ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
     
     // Seasonal Flowers
-    new Product(24, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
+    new Product(25, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 
         "Fresh spring tulips in vibrant colors. Celebrate the arrival of spring with this cheerful bouquet of mixed tulips in shades of pink, yellow, and purple.",
         ["pics/spring1.webp", "pics/spring2.jpg", "pics/spring3.jpg"]),
     
-    new Product(25, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
+    new Product(26, "Summer Sunflowers", 2499.00, "seasonal", "pics/summer1.jpg", 
         "Bright sunflowers to capture summer joy. These vibrant flowers bring the warmth and happiness of summer into any space.",
         ["pics/summer1.jpg", "pics/spring1.webp", "pics/fall.jpg"]),
     
-    new Product(26, "Autumn Harvest", 2899.00, "seasonal", "pics/fall.jpg", 
+    new Product(27, "Autumn Harvest", 2899.00, "seasonal", "pics/fall.jpg", 
         "Warm autumn colors featuring chrysanthemums, dahlias, and seasonal foliage. Perfect for fall celebrations and Thanksgiving.",
         ["pics/fall.jpg", "pics/spring1.webp", "pics/summer1.jpg"])
 ];
