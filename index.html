@@ -62,28 +62,45 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Replace your existing hero section with this enhanced version -->
     <section class="hero">
+        <div class="hero-background">
+            <!-- Cherry blossom container -->
+            <div class="cherry-blossom-container" id="cherry-blossom-container"></div>
+            
+            <!-- Background gradient overlay -->
+            <div class="bg-overlay"></div>
+            
+            <!-- Floating petals -->
+            <div class="floating-petals">
+                <div class="petal p1"></div>
+                <div class="petal p2"></div>
+                <div class="petal p3"></div>
+                <div class="petal p4"></div>
+                <div class="petal p5"></div>
+                <div class="petal p6"></div>
+                <div class="petal p7"></div>
+                <div class="petal p8"></div>
+            </div>
+        </div>
+        
         <div class="hero-content">
-            <lottie-player 
-                src="pics/floral.json"
-                background="transparent" 
-                speed="1" 
-                loop 
-                autoplay
-                style="width: 500px; height: 500px;">
-            </lottie-player>
-
             <div class="hero-text">
-                <h1>Elegant Flowers for <span>Beautiful Moments</span></h1>
-                <p>Handcrafted floral arrangements that capture the essence of your special occasions. Fresh, premium blooms delivered with care and elegance.</p>
+                <div class="title-container">
+                    <h1 class="main-title">
+                        <span class="title-line">Elegant Flowers for</span>
+                        <span class="title-highlight">Beautiful Moments</span>
+                    </h1>
+                </div>
+                
+                <p class="hero-description">Handcrafted floral arrangements that capture the essence of your special occasions. Fresh, premium blooms delivered with care and elegance.</p>
                 
                 <div class="cta-group">
-                    <button class="cta-button">
+                    <button class="cta-button primary-btn">
                         <i class="fas fa-shopping-bag"></i>
                         Shop Collection
                     </button>
-                    <button class="cta-button secondary">
+                    <button class="cta-button secondary-btn">
                         <i class="fas fa-play"></i>
                         Watch Story
                     </button>
@@ -91,16 +108,33 @@
                 
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">2K+</span>
+                        <span class="stat-number" data-count="2000">0</span>
                         <span class="stat-label">Happy Customers</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">150+</span>
+                        <span class="stat-number" data-count="150">0</span>
                         <span class="stat-label">Unique Designs</span>
                     </div>
                     <div class="stat">
                         <span class="stat-number">24/7</span>
                         <span class="stat-label">Delivery</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="flower-showcase">
+                    <div class="flower-card card-1">
+                        <img src="pics/b1.webp" alt="Candy Pink Bouquet">
+                        <div class="flower-glow"></div>
+                    </div>
+                    <div class="flower-card card-2">
+                        <img src="pics/f1.jpg" alt="Blooms Blush Arrangement">
+                        <div class="flower-glow"></div>
+                    </div>
+                    <div class="flower-card card-3">
+                        <img src="pics/b3.webp" alt="Berry Cheesecake Bouquet">
+                        <div class="flower-glow"></div>
                     </div>
                 </div>
             </div>
