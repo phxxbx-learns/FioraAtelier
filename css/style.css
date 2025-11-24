@@ -1410,10 +1410,6 @@ body {
 
 /* Testimonials Section */
 .testimonials-section {
-    background: 
-        url('/pics/testimonials.png');
-    background-size: cover;
-    background-position: center;
     padding: 5rem 0;
     margin: 4rem 0;
     width: 100vw;
