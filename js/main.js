@@ -175,15 +175,18 @@ function setupEventListeners() {
     // Wishlist interactions
     if (wishlistItems) {
         wishlistItems.addEventListener('click', function(e) {
-            if (e.target.classList.contains('move-to-cart')) {
-                const productId = parseInt(e.target.getAttribute('data-id'));
+            if (e.target.classList.contains('move-to-cart') || e.target.closest('.move-to-cart')) {
+                const button = e.target.classList.contains('move-to-cart') ? e.target : e.target.closest('.move-to-cart');
+                const productId = parseInt(button.getAttribute('data-id'));
                 moveToCart(productId);
             }
-
-            if (e.target.classList.contains('remove-wishlist')) {
-                const productId = parseInt(e.target.getAttribute('data-id'));
+        
+            // Remove from wishlist button
+            if (e.target.classList.contains('remove-wishlist') || e.target.closest('.remove-wishlist')) {
+                const button = e.target.classList.contains('remove-wishlist') ? e.target : e.target.closest('.remove-wishlist');
+                const productId = parseInt(button.getAttribute('data-id'));
                 removeFromWishlist(productId);
-            }
+            }        
         });
     }
 

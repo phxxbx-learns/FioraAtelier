@@ -112,7 +112,9 @@ function removeFromWishlist(productId) {
     }
 
     updateWishlistUI();
+    saveWishlistToStorage();
     
+    // Update wishlist buttons on product cards
     const wishlistBtn = document.querySelector(`.wishlist-btn[data-id="${productId}"]`);
     if (wishlistBtn) {
         wishlistBtn.classList.remove('active');
@@ -130,6 +132,7 @@ function clearWishlist() {
     if (confirm('Are you sure you want to clear your entire wishlist?')) {
         wishlist = [];
         updateWishlistUI();
+        saveWishlistToStorage();
         showToast('Wishlist cleared');
         
         // Update all wishlist buttons on the page
@@ -199,4 +202,27 @@ function setupWishlistEventListeners() {
     if (shareWishlistBtn) {
         shareWishlistBtn.addEventListener('click', shareWishlist);
     }
+}
+
+/**
+ * Handle wishlist item interactions (move to cart and remove)
+ * This should be called after the wishlist UI is updated
+ */
+function handleWishlistItemInteractions() {
+    // Use event delegation for dynamically created wishlist items
+    document.addEventListener('click', function(e) {
+        // Move to cart button
+        if (e.target.classList.contains('move-to-cart') || e.target.closest('.move-to-cart')) {
+            const button = e.target.classList.contains('move-to-cart') ? e.target : e.target.closest('.move-to-cart');
+            const productId = parseInt(button.getAttribute('data-id'));
+            moveToCart(productId);
+        }
+
+        // Remove from wishlist button
+        if (e.target.classList.contains('remove-wishlist') || e.target.closest('.remove-wishlist')) {
+            const button = e.target.classList.contains('remove-wishlist') ? e.target : e.target.closest('.remove-wishlist');
+            const productId = parseInt(button.getAttribute('data-id'));
+            removeFromWishlist(productId);
+        }
+    });
 }

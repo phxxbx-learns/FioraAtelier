@@ -2995,20 +2995,31 @@ body {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 8px;
+    padding: 4px 10px;
+    border-radius: 4px;
     cursor: pointer;
     transition: var(--transition);
-    font-weight: 600;
+    font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
-    min-height: 44px;
+    justify-content: center;
+    gap: 0.3rem;
+    height: 30px;
+    font-size: 0.8rem;
+    line-height: 1;
+    margin: 0;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
 
-.browse-btn:hover {
-    background: var(--pink-dark);
-    transform: translateY(-2px);
+.browse-btn i {
+    font-size: 0.8rem;
+    line-height: 1;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 0;
+    padding: 0;
 }
 
 /* Overlay */
