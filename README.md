@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The Fiora Atelier is a sophisticated e-commerce prototype developed using **Vanilla JavaScript (ES Modules)**, HTML, and CSS. The primary goal of this application is to showcase robust algorithms, including a strict **modular architecture**, clean code practices, and the strategic implementation of core **data structures** (Linked List, Stack) to optimize critical functionalities like the shopping cart.
+The Fiora Atelier is a sophisticated frontend e-commerce prototype developed using **Vanilla JavaScript, HTML, and CSS**. The primary goal of this application is to showcase robust algorithms, including a strict **modular architecture**, clean code practices, and the strategic implementation of core **data structures** (Linked List, Stack) to optimize critical functionalities like the shopping cart.
 
 -----
 
