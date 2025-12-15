@@ -1,4 +1,4 @@
-# 🚀 Fiora Atelier Deployment Guide
+# Fiora Atelier Deployment Guide
 
 ## Prerequisites
 - Web server with PHP 7.4+
