@@ -14,10 +14,10 @@ The platform demonstrates robust algorithms, **modular architecture**, clean cod
 This project requires **PHP 7.4+ and MySQL 5.7+** for full functionality (shopping cart, inventory management, APIs, and database operations). Since **GitHub Pages only supports static files**, the complete application is deployed on **InfinityFree** hosting to support backend operations.
 
 ### Live Demo
-🌐 **Full-Featured Live Demo:** [https://fioraatelier.wuaze.com/index.html](https://fioraatelier.wuaze.com/index.html)
+**Full-Featured Live Demo:** [https://fioraatelier.wuaze.com/index.html](https://fioraatelier.wuaze.com/index.html)
 
 ### Source Code
-📦 **GitHub Repository:** [https://github.com/phxxbx-learns/FioraAtelier.git](https://github.com/phxxbx-learns/FioraAtelier.git)
+**GitHub Repository:** [https://github.com/phxxbx-learns/FioraAtelier.git](https://github.com/phxxbx-learns/FioraAtelier.git)
 *(Note: Backend features require PHP/MySQL server environment)*
 
 ---
@@ -90,16 +90,29 @@ The application adopts a strict **Separation of Concerns** principle, organizing
 
 ### Backend Structure (PHP/MySQL)
 ```
-├── php/
-│   ├── api/
-│   │   ├── check-stock.php     <-- Real-time stock level checking
-│   │   ├── update-stock.php    <-- Inventory updates
-│   │   └── purchase-order.php  <-- PO management endpoints
-│   ├── config/
-│   │   └── database.php        <-- Database connection configuration
-│   └── models/
-│       └── Inventory.php       <-- Inventory business logic
-└── database-fixed.sql          <-- Database schema and sample data
+php/
+├── api/
+│   ├── check-stock.php         <-- Real-time stock level checking API
+│   └── update-stock.php        <-- Inventory updates API
+├── config/
+│   ├── database.php            <-- Database connection configuration
+│   └── production.php          <-- Production environment settings
+├── inventory/
+│   ├── dashboard.php           <-- Admin dashboard interface
+│   ├── header.php              <-- Admin panel header template
+│   ├── login.php               <-- Admin authentication system
+│   ├── logout.php              <-- Session termination
+│   ├── products.php            <-- Product management interface
+│   ├── purchase_order_items.php <-- Purchase order line items
+│   ├── purchase_orders.php     <-- Purchase order management
+│   └── styles.css              <-- Admin panel styles
+├── suppliers.php               <-- Supplier management interface
+└── models/
+    ├── Inventory.php           <-- Inventory business logic
+    ├── Product.php             <-- Product model and operations
+    ├── PurchaseOrder.php       <-- Purchase order model
+    ├── PurchaseOrderItem.php   <-- Purchase order item model
+    └── Supplier.php            <-- Supplier model
 ```
 
 ---
@@ -136,15 +149,21 @@ The application adopts a strict **Separation of Concerns** principle, organizing
 
 ### 5. Real-time Inventory Management
 - **Technology:** **PHP RESTful API + MySQL**
-- **Features:**
-  - Real-time stock level monitoring
-  - Automated low stock alerts
-  - Purchase order workflow
-  - Supplier relationship management
 - **API Endpoints:**
-  - `POST /api/check-stock.php` - Check current stock levels
-  - `POST /api/update-stock.php` - Update inventory quantities
-  - `GET /api/purchase-order.php` - Manage purchase orders
+  - `POST /php/api/check-stock.php` - Check current stock levels
+  - `POST /php/api/update-stock.php` - Update inventory quantities
+- **Admin Features:**
+  - Real-time stock level monitoring (`inventory/dashboard.php`)
+  - Purchase order workflow (`inventory/purchase_orders.php`)
+  - Supplier relationship management (`suppliers.php`)
+  - Product management (`inventory/products.php`)
+
+### 6. Object-Oriented PHP Architecture
+- **Models Directory:** Implements MVC pattern with dedicated classes
+  - `Inventory.php`: Handles stock operations and validations
+  - `Product.php`: Manages product CRUD operations
+  - `PurchaseOrder.php`: Processes purchase order lifecycle
+  - `Supplier.php`: Manages supplier data and relationships
 
 ---
 
@@ -160,12 +179,13 @@ The application adopts a strict **Separation of Concerns** principle, organizing
 - **Simulated Checkout** process
 
 ### Administrative
-- **Real Inventory Management System**
-- **Stock Level Monitoring** with alerts
-- **Purchase Order Management**
-- **Supplier Management**
+- **Admin Dashboard** (`inventory/dashboard.php`)
+- **Real-time Stock Monitoring** with alerts
+- **Purchase Order Management** system
+- **Supplier Management** interface
+- **Product CRUD Operations**
+- **Secure Authentication** (`inventory/login.php`)
 - **Transaction History Logging**
-- **Admin Dashboard** with action history (Stack-based undo)
 
 ---
 
@@ -184,10 +204,11 @@ The entire codebase adheres to professional documentation standards:
 
 ### Complete Features
 - Full e-commerce shopping flow
-- Inventory management system
+- Complete inventory management system with PHP backend
 - Responsive frontend design
 - Data structure implementations (Linked List, Stack)
 - Local storage persistence
+- Secure admin authentication
 
 ### Current Limitations
 - Payment processing is simulated (no real transactions)
@@ -196,11 +217,12 @@ The entire codebase adheres to professional documentation standards:
 - Designed for small-medium inventory scale
 
 ### Future Enhancements
-- User authentication system
+- User authentication system for customers
 - Real payment gateway integration
 - Advanced reporting dashboard
 - Multi-vendor support
 - Mobile application
+- Automated email notifications
 
 ---
 
@@ -209,7 +231,11 @@ The entire codebase adheres to professional documentation standards:
 For technical support or deployment assistance:
 - **Live Demo:** [https://fioraatelier.wuaze.com](https://fioraatelier.wuaze.com)
 - **GitHub Issues:** [Project Issues](https://github.com/phxxbx-learns/FioraAtelier/issues)
-- **Documentation:** See `FioraAtelier_UserGuide.pdf` for detailed setup and usage instructions
+- **Documentation:** See `User Guide.pdf` for detailed setup and usage instructions
+
+**Default Admin Credentials:**
+- Username: `admin`
+- Password: `password`
 
 *Developed as a final project for CCIT 104: Data Structures and Algorithms*
 ```
