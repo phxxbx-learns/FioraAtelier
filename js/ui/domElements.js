@@ -68,3 +68,16 @@ function initializeGlobalInstances() {
     actionHistory = new ActionHistory();
     orderHistory = new OrderHistory();
 }
+
+function debugDOMState() {
+    console.log('=== DOM State Debug ===');
+    console.log('productContainer exists:', !!productContainer);
+    console.log('freshContainer exists:', !!freshContainer);
+    console.log('syntheticContainer exists:', !!syntheticContainer);
+    console.log('sortSelect exists:', !!sortSelect);
+    if (sortSelect) {
+        console.log('sortSelect value:', sortSelect.value);
+        console.log('sortSelect options:', Array.from(sortSelect.options).map(o => o.value));
+    }
+    console.log('=== END DOM Debug ===');
+}

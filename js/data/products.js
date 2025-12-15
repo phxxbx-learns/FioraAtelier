@@ -106,18 +106,6 @@ const productCatalog = [
     new Product(21, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
         "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
         ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
-
-    new Product(22, "Classic Roses", 399.00, "synthetic", "pics/s3.jpg", 
-        "Timeless synthetic roses that never wilt. Available in various colors, these roses maintain their beauty forever with zero maintenance.",
-        ["pics/s3.jpg", "pics/s4.jpg", "pics/s5.jpg"]),
-    
-    new Product(23, "Orchid Elegance", 449.00, "synthetic", "pics/s4.jpg", 
-        "Lifelike synthetic orchids that capture the delicate beauty of real orchids. Perfect for office decor or home accents.",
-        ["pics/s4.jpg", "pics/s3.jpg", "pics/s5.jpg"]),
-    
-    new Product(24, "Mixed Bloom", 499.00, "synthetic", "pics/s5.jpg", 
-        "A beautiful arrangement of mixed synthetic flowers including peonies, roses, and hydrangeas. Looks incredibly realistic.",
-        ["pics/s5.jpg", "pics/s3.jpg", "pics/s4.jpg"]),
     
     // Seasonal Flowers
     new Product(25, "Spring Tulips", 1999.00, "seasonal", "pics/spring1.webp", 

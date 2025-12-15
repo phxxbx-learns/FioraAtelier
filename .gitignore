@@ -1,0 +1,11 @@
+# Ignore sensitive files
+.env
+config/production.php
+*.log
+
+# Ignore local development files
+.DS_Store
+Thumbs.db
+
+# Ignore large files
+/pics/uploads/

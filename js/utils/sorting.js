@@ -92,8 +92,9 @@ class SortingAlgorithms {
         return a.name.localeCompare(b.name);
     }
 
-    static compareByCategory(a, b) {
-        return a.category.localeCompare(b.category);
+    static compareByDefault(a, b) {
+        // For default sorting, sort by ID to maintain original order
+        return a.id - b.id;
     }
 }
 
@@ -101,18 +102,24 @@ class SortingAlgorithms {
  * Sort products using custom sorting algorithms
  */
 function sortProducts(products, sortBy) {
+    // Always create a copy to avoid modifying the original array
     const productsCopy = [...products];
     
     switch(sortBy) {
         case 'price-low':
+            console.log('Sorting by price low to high');
             return SortingAlgorithms.quickSort(productsCopy, SortingAlgorithms.compareByPriceAsc);
         case 'price-high':
+            console.log('Sorting by price high to low');
             return SortingAlgorithms.quickSort(productsCopy, SortingAlgorithms.compareByPriceDesc);
         case 'name':
+            console.log('Sorting by name A-Z');
             return SortingAlgorithms.mergeSort(productsCopy, SortingAlgorithms.compareByName);
-        case 'category':
-            return SortingAlgorithms.mergeSort(productsCopy, SortingAlgorithms.compareByCategory);
+        case 'default':
+            console.log('Sorting by default (ID)');
+            return SortingAlgorithms.mergeSort(productsCopy, SortingAlgorithms.compareByDefault);
         default:
-            return productsCopy;
+            console.log('Default sorting');
+            return SortingAlgorithms.mergeSort(productsCopy, SortingAlgorithms.compareByDefault);
     }
 }

@@ -1,6 +1,6 @@
 /**
  * Cart UI Management
- * Handles all cart-related user interface operations
+ * Handles all cart-related user interface operations with inventory integration
  */
 
 /**
@@ -19,13 +19,23 @@ function updateCartUI() {
             </div>
         `;
     } else {
-        cartItems.innerHTML = items.map(item => `
-            <div class="cart-item">
+        cartItems.innerHTML = items.map(item => {
+            const stockStatus = getStockStatus(item.product.id, item.quantity);
+            const stockClass = stockStatus.inStock ? '' : 'stock-out-of-stock';
+            const stockMessage = stockStatus.inStock ? 
+                (stockStatus.lowStock ? 
+                    `<div class="stock-warning">Only ${stockStatus.availableStock} left!</div>` : 
+                    '') : 
+                `<div class="stock-error">Out of stock</div>`;
+            
+            return `
+            <div class="cart-item ${stockClass}" data-id="${item.product.id}">
                 <img src="${item.product.image}" alt="${item.product.name}" class="cart-item-image">
                 <div class="cart-item-content">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.product.name}</div>
                         <div class="cart-item-price">₱${item.product.price.toLocaleString()} each</div>
+                        ${stockMessage}
                         <div class="cart-item-quantity">
                             <button class="cart-quantity-btn decrease" data-id="${item.product.id}">-</button>
                             <span style="font-weight: bold; min-width: 30px; text-align: center;">${item.quantity}</span>
@@ -42,7 +52,8 @@ function updateCartUI() {
                     </div>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     if (cartTotal) cartTotal.textContent = `₱${shoppingCart.total.toLocaleString()}`;
@@ -51,9 +62,9 @@ function updateCartUI() {
 }
 
 /**
- * Add product to cart with error handling
+ * Add product to cart with inventory validation
  */
-function addToCart(productId, quantity = null) {
+async function addToCart(productId, quantity = null) {
     try {
         const product = productCatalog.find(p => p.id === productId);
         if (!product) return;
@@ -64,10 +75,30 @@ function addToCart(productId, quantity = null) {
             qty = parseInt(quantityElement.textContent);
         }
 
+        // Check stock availability
+        const stockStatus = await checkStockAvailability(productId, qty);
+        
+        if (!stockStatus.inStock) {
+            showToast(`Sorry, ${product.name} is out of stock!`, 'error');
+            return;
+        }
+
+        if (stockStatus.lowStock) {
+            showToast(`Only ${stockStatus.availableStock} ${product.name} available!`, 'warning');
+        }
+
         const existingItem = shoppingCart.getItems().find(item => item.product.id === productId);
         
         if (existingItem) {
-            const action = shoppingCart.updateQuantity(productId, existingItem.quantity + qty);
+            const newQuantity = existingItem.quantity + qty;
+            const newStockCheck = await checkStockAvailability(productId, newQuantity);
+            
+            if (!newStockCheck.inStock) {
+                showToast(`Cannot add more. Only ${newStockCheck.availableStock} ${product.name} available!`, 'error');
+                return;
+            }
+            
+            const action = shoppingCart.updateQuantity(productId, newQuantity);
             actionHistory.push({
                 type: 'update',
                 productId: productId,
@@ -92,8 +123,61 @@ function addToCart(productId, quantity = null) {
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
-        showToast(error.message);
+        showToast(error.message, 'error');
     }
+}
+
+/**
+ * Check stock availability from server
+ */
+async function checkStockAvailability(productId, quantity) {
+    try {
+        const response = await fetch('./php/api/check-stock.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ product_id: productId })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            return {
+                inStock: data.stock_quantity >= quantity,
+                availableStock: data.stock_quantity,
+                lowStock: data.stock_quantity <= data.min_stock_level
+            };
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        console.error('Error checking stock:', error);
+        // Fallback to client-side check if API fails
+        const product = productCatalog.find(p => p.id === productId);
+        return {
+            inStock: true, // Assume in stock if API fails
+            availableStock: 100, // Default high number
+            lowStock: false
+        };
+    }
+}
+
+/**
+ * Get stock status for display
+ */
+function getStockStatus(productId, quantity) {
+    // This would be enhanced with real data from the server
+    const product = productCatalog.find(p => p.id === productId);
+    if (!product) return { inStock: false, availableStock: 0, lowStock: false };
+    
+    // Mock data - in real implementation, this would come from server
+    const mockStock = Math.floor(Math.random() * 50) + 1; // Random stock for demo
+    return {
+        inStock: mockStock >= quantity,
+        availableStock: mockStock,
+        lowStock: mockStock <= 10
+    };
 }
 
 /**
@@ -114,9 +198,9 @@ function removeFromCart(productId) {
 }
 
 /**
- * Update cart item quantity
+ * Update cart item quantity with stock validation
  */
-function updateCartQuantity(productId, isIncrease) {
+async function updateCartQuantity(productId, isIncrease) {
     try {
         const cartItem = shoppingCart.getItems().find(item => item.product.id === productId);
         if (!cartItem) return;
@@ -125,6 +209,15 @@ function updateCartQuantity(productId, isIncrease) {
         const newQuantity = isIncrease ? oldQuantity + 1 : Math.max(1, oldQuantity - 1);
         
         if (oldQuantity !== newQuantity) {
+            // Check stock for increase
+            if (isIncrease) {
+                const stockStatus = await checkStockAvailability(productId, newQuantity);
+                if (!stockStatus.inStock) {
+                    showToast(`Only ${stockStatus.availableStock} available!`, 'error');
+                    return;
+                }
+            }
+            
             shoppingCart.updateQuantity(productId, newQuantity);
             actionHistory.push({
                 type: 'update',
@@ -136,7 +229,7 @@ function updateCartQuantity(productId, isIncrease) {
         }
     } catch (error) {
         console.error('Error updating cart quantity:', error);
-        showToast(error.message);
+        showToast(error.message, 'error');
     }
 }
 
@@ -174,4 +267,31 @@ function undoLastAction() {
     }
 
     updateCartUI();
+}
+/**
+ * Update stock when order is placed
+ */
+async function updateStockAfterOrder(items) {
+    try {
+        for (const item of items) {
+            const response = await fetch('./php/api/update-stock.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: item.product.id,
+                    quantity: item.quantity,
+                    type: 'out'
+                })
+            });
+            
+            const data = await response.json();
+            if (!data.success) {
+                console.error('Failed to update stock for:', item.product.name);
+            }
+        }
+    } catch (error) {
+        console.error('Error updating stock:', error);
+    }
 }
